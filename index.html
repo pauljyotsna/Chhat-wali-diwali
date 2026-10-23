@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>छत वाली Diwali</title>
+<meta name="description" content="Tu invited hai. Diya jalao, invite kholo.">
+<meta property="og:title" content="छत वाली Diwali — tu invited hai">
+<meta property="og:description" content="Diya jalao, invite kholo. RSVP, golgappe, patake aur thoda drama.">
+<meta name="theme-color" content="#c8201a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bungee&family=Silkscreen:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,700;1,9..144,900&family=Hind:wght@400;500;600;700&display=swap">
+<style>
+/* Concept: a desi retro-pop poster you scroll through. Loud colour blocks, one per section; poster type up top, warm Hinglish underneath. */
+:root{
+  --sindoor:#c8201a; --sindoor-d:#9c1712; --haldi:#ffc20e; --mehendi:#1d8a3c; --rani:#e3177a;
+  --mor:#0f6e8c; --narangi:#f26b1d; --cream:#fbf0d9; --ink:#1b120f; --night:#160b1f;
+  --f-dev:"Rozha One","Hind",serif;
+  --f-chunk:"Bungee","Arial Black",Impact,sans-serif;
+  --f-pix:"Silkscreen","Courier New",monospace;
+  --f-script:"Fraunces",Georgia,serif;
+  --f-body:"Hind",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;overflow-x:hidden}
+img{max-width:100%}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+section{position:relative}
+.dev{font-family:var(--f-dev);font-weight:400;line-height:1.05}
+.chunk{font-family:var(--f-chunk);font-weight:400;letter-spacing:.01em;line-height:.95}
+.pix{font-family:var(--f-pix);letter-spacing:.06em}
+.script{font-family:var(--f-script);font-style:italic;font-weight:900}
+h2{margin:0;text-wrap:balance}
+.kicker{font-family:var(--f-pix);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:8px;border:3px solid var(--ink);background:var(--haldi);color:var(--ink);font-family:var(--f-chunk);font-size:1rem;padding:12px 20px;border-radius:999px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s;text-decoration:none}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.alt{background:var(--cream)}
+.btn.pink{background:var(--rani);color:#fff}
+.demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);color:var(--haldi);font-family:var(--f-pix);font-size:.72rem;text-align:center;padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px))}
+
+/* ---------- GATE ---------- */
+#gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 70%,#3a1030 0%,var(--night) 60%);display:grid;place-items:center;text-align:center;color:var(--cream);padding:24px;transition:opacity .9s ease,visibility .9s}
+#gate.open{opacity:0;visibility:hidden}
+#gate .stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff8,transparent),radial-gradient(1px 1px at 70% 20%,#fff9,transparent),radial-gradient(1.5px 1.5px at 85% 60%,#fff6,transparent),radial-gradient(1px 1px at 35% 75%,#fff7,transparent),radial-gradient(1px 1px at 55% 45%,#fff5,transparent),radial-gradient(1.5px 1.5px at 10% 85%,#fff6,transparent);pointer-events:none}
+#gate .inner{position:relative;display:grid;gap:18px;justify-items:center;max-width:520px}
+#gate h1{margin:0;font-size:clamp(2.6rem,10vw,4.6rem);color:var(--haldi)}
+#gate p{margin:0;color:#e9d7c2}
+.gate-diya{width:min(260px,62vw);cursor:pointer;background:none;border:0;padding:0;position:relative}
+.gate-diya svg{width:100%;height:auto;display:block;overflow:visible}
+.flame{transform-origin:50% 100%;transform:scale(0);transition:transform .7s cubic-bezier(.3,1.6,.5,1)}
+.lit .flame{transform:scale(1);animation:flick 1.6s ease-in-out .7s infinite}
+.halo{opacity:0;transition:opacity 1s .2s}
+.lit .halo{opacity:1}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-1deg)}50%{transform:scale(1.06,0.95) rotate(2deg)}}
+.tap-hint{font-family:var(--f-pix);font-size:.85rem;color:var(--haldi);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+
+/* ---------- HERO ---------- */
+.hero{background:var(--sindoor);color:var(--cream);overflow:hidden;min-height:min(92vh,820px);display:flex;align-items:center;padding-block:90px 70px}
+.sunburst{position:absolute;left:50%;top:55%;width:2400px;height:2400px;margin:-1200px 0 0 -1200px;background:repeating-conic-gradient(from 0deg,var(--sindoor) 0 7.5deg,var(--sindoor-d) 7.5deg 15deg);animation:spin 90s linear infinite;opacity:.9}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:24px;align-items:center;width:100%}
+.hero .hero-top{position:absolute;top:18px;left:0;right:0;display:flex;justify-content:space-between;align-items:center;gap:10px;grid-template-columns:none}
+.logo-chip{display:inline-flex;align-items:center;gap:8px;background:var(--cream);color:var(--sindoor);border-radius:999px;padding:5px 12px 5px 6px;font-family:var(--f-pix);font-size:.75rem;font-weight:700}
+.logo-chip i{width:22px;height:22px;border-radius:50%;background:var(--sindoor);display:grid;place-items:center;color:var(--haldi);font-style:normal;font-size:.8rem}
+.heads{font-family:var(--f-pix);font-size:.75rem;background:var(--haldi);color:var(--ink);padding:5px 10px;border-radius:999px}
+.hero h1{margin:0}
+.hero .t1{display:block;font-size:clamp(3.2rem,11vw,7.2rem);color:var(--cream);text-shadow:5px 5px 0 var(--sindoor-d)}
+.hero .t2{display:block;font-size:clamp(3.6rem,13vw,8.6rem);color:var(--haldi);margin-top:-.12em;text-shadow:5px 5px 0 var(--ink)}
+.hero .sub{font-size:1.15rem;max-width:34ch;margin-top:14px;color:#fde9cf}
+.countdown{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.cd{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:14px;min-width:74px;padding:8px 10px 6px;text-align:center;box-shadow:4px 4px 0 var(--ink)}
+.cd b{display:block;font-family:var(--f-chunk);font-size:2rem;line-height:1;font-variant-numeric:tabular-nums}
+.cd span{font-family:var(--f-pix);font-size:.68rem}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.hero-diya{width:100%;max-width:420px;justify-self:center;filter:drop-shadow(0 18px 30px rgba(0,0,0,.35));animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.sticker{position:absolute;font-family:var(--f-script);font-style:italic;font-weight:900;color:var(--ink);background:var(--haldi);padding:6px 14px;border-radius:50%;transform:rotate(-10deg);border:3px solid var(--ink);font-size:1rem;right:4%;bottom:10%}
+@media (max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero-diya{max-width:240px;grid-row:1;margin-top:20px}.sticker{display:none}}
+
+/* ---------- TICKER ---------- */
+.ticker{background:var(--haldi);border-block:3px solid var(--ink);overflow:hidden;white-space:nowrap;padding:10px 0}
+.ticker .track{display:inline-block;animation:marq 26s linear infinite;font-family:var(--f-chunk);font-size:1.15rem}
+.ticker .track span{margin:0 18px}
+.ticker .track em{font-family:var(--f-script);font-weight:900;color:var(--sindoor)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- INVITE / SCRATCH ---------- */
+.invite{background:var(--mehendi);padding-block:70px}
+.invite .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:820px){.invite .grid{grid-template-columns:1fr}}
+.card{background:var(--cream);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:26px}
+.invite h2{font-size:clamp(2.2rem,6vw,3.4rem);color:var(--sindoor)}
+.invite h2 .script{color:var(--mehendi);font-size:1.1em}
+.invite p.lead{margin:12px 0 0;max-width:42ch}
+.scratch{position:relative;margin-top:22px;border-radius:14px;overflow:hidden;border:3px dashed var(--ink);aspect-ratio:16/10;max-width:100%;background:var(--ink);color:var(--cream)}
+.scratch .under{position:absolute;inset:0;padding:18px 20px;display:grid;align-content:center;gap:6px;background:radial-gradient(circle at 80% 20%,#3a1030,var(--ink))}
+.scratch .under .when{font-family:var(--f-chunk);color:var(--haldi);font-size:clamp(1.4rem,4.4vw,2rem);line-height:1.05}
+.scratch .under .twist{font-family:var(--f-script);font-style:italic;font-weight:900;font-size:clamp(1.1rem,3.4vw,1.5rem);color:#ff8fc2}
+.scratch .under small{font-family:var(--f-pix);font-size:.7rem;color:#e7d6c0}
+.scratch canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.scratch-hint{font-family:var(--f-pix);font-size:.72rem;margin-top:8px;color:var(--ink)}
+.details{background:var(--ink);color:var(--cream);border-radius:18px;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--haldi);padding:22px 22px 18px}
+.details h3{margin:0 0 12px;font-family:var(--f-pix);font-size:.85rem;color:var(--haldi);letter-spacing:.12em}
+.drow{display:grid;grid-template-columns:90px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px dashed #ffffff30}
+.drow:last-of-type{border-bottom:0}
+.drow dt{font-family:var(--f-pix);font-size:.72rem;color:#d9c7ae;padding-top:3px}
+.drow dd{margin:0;font-weight:600}
+.locked{filter:blur(5px);user-select:none}
+.details .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.details .btn{font-size:.85rem;padding:9px 14px;box-shadow:3px 3px 0 var(--haldi);border-color:var(--cream)}
+.details .btn.alt{background:transparent;color:var(--cream)}
+
+/* ---------- SCENE (poster list) ---------- */
+.scene{background:var(--rani);color:var(--cream);padding-block:70px;overflow:hidden}
+.scene .grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:center}
+@media (max-width:760px){.scene .grid{grid-template-columns:1fr}}
+.scene h2 .dev{display:block;font-size:clamp(2.4rem,8vw,4.4rem);color:var(--cream)}
+.scene h2 .pix{display:block;font-size:clamp(2.2rem,8vw,4.8rem);color:var(--haldi);font-weight:700;line-height:.95;text-shadow:4px 4px 0 var(--mehendi)}
+.stack{list-style:none;margin:0;padding:0;font-family:var(--f-pix);font-weight:700;font-size:clamp(1.3rem,4vw,2rem);letter-spacing:.18em;line-height:1.25}
+.stack li{display:flex;gap:12px;align-items:baseline}
+.stack li small{font-family:var(--f-body);letter-spacing:0;font-weight:500;font-size:.95rem;opacity:.9}
+.ring{display:inline-block;margin-top:18px;font-family:var(--f-script);font-style:italic;font-weight:900;font-size:1.4rem;padding:10px 26px;border:2px solid var(--cream);border-radius:50%;transform:rotate(-6deg)}
+
+/* ---------- GAMES ---------- */
+.games{background:var(--night);color:var(--cream);padding-block:70px}
+.games h2 .dev{font-size:clamp(2.4rem,7vw,4rem);color:var(--haldi)}
+.games .intro{color:#d8c8e0;max-width:56ch;margin-top:6px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 16px}
+.tabs button{border:2px solid var(--cream);background:transparent;color:var(--cream);border-radius:999px;padding:8px 16px;font-family:var(--f-chunk);font-size:.9rem}
+.tabs button[aria-selected="true"]{background:var(--haldi);color:var(--ink);border-color:var(--haldi)}
+.game{background:#241330;border:3px solid #ffffff22;border-radius:20px;padding:18px;min-height:420px;position:relative;overflow:hidden}
+.game h3{margin:0;font-family:var(--f-chunk);font-size:1.3rem;color:var(--haldi)}
+.game .how{color:#cdbbd8;font-size:.95rem;margin:4px 0 0}
+/* golgappa */
+.gg-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.gg-score{font-family:var(--f-chunk);font-size:1.6rem}
+.gg-score small{font-family:var(--f-pix);font-size:.7rem;color:#cdbbd8;display:block}
+.plate{position:relative;margin:14px auto 0;width:min(420px,100%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#f4f1ea 0 58%,#d8d2c4 59% 64%,#ece7dc 65% 100%);border:4px solid #b9b1a0;box-shadow:inset 0 0 0 10px #ffffff70, 0 20px 40px #0008}
+.gg{position:absolute;width:20%;aspect-ratio:1;border:0;padding:0;background:none;transform:translate(-50%,-50%);transition:transform .15s}
+.gg svg{width:100%;height:100%;display:block}
+.gg.eaten{transform:translate(-50%,-50%) scale(0) rotate(40deg);transition:transform .22s ease-in}
+.gg.spicy svg .shell{fill:#e8742a}
+.splash{position:absolute;pointer-events:none;font-family:var(--f-chunk);color:var(--haldi);font-size:1.1rem;animation:rise .8s ease-out forwards;transform:translate(-50%,-50%);white-space:nowrap;text-shadow:2px 2px 0 var(--ink)}
+@keyframes rise{to{transform:translate(-50%,-160%);opacity:0}}
+.gg-result{margin-top:12px;min-height:1.6em;font-family:var(--f-script);font-style:italic;font-weight:900;font-size:1.3rem;color:#ff8fc2;text-align:center}
+/* patakha */
+#fw{position:absolute;inset:0;width:100%;height:100%;touch-action:manipulation;cursor:pointer}
+.fw-ui{position:relative;z-index:2;pointer-events:none}
+.fw-ui .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;pointer-events:auto}
+.fw-ui .btn{font-size:.85rem;padding:9px 14px}
+/* teen patti */
+.cards{display:flex;gap:14px;justify-content:center;margin-top:22px;perspective:900px;flex-wrap:wrap}
+.pcard{width:min(150px,28vw);aspect-ratio:5/7;border:0;padding:0;background:none;position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1)}
+.pcard.flip{transform:rotateY(180deg)}
+.pcard .face{position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;border:3px solid var(--ink);display:grid;place-items:center;text-align:center;padding:10px}
+.pcard .back{background:repeating-linear-gradient(45deg,var(--sindoor) 0 10px,var(--sindoor-d) 10px 20px);box-shadow:inset 0 0 0 6px var(--cream)}
+.pcard .back span{font-family:var(--f-dev);color:var(--haldi);font-size:2rem;text-shadow:2px 2px 0 var(--ink)}
+.pcard .front{background:var(--cream);color:var(--ink);transform:rotateY(180deg);align-content:space-between}
+.pcard .front .rank{font-family:var(--f-chunk);font-size:1.6rem}
+.pcard .front .rank.red{color:var(--sindoor)}
+.pcard .front p{margin:0;font-size:.82rem;line-height:1.25;font-weight:600}
+.tp-verdict{text-align:center;margin-top:18px;font-family:var(--f-script);font-style:italic;font-weight:900;font-size:1.4rem;color:var(--haldi);min-height:1.6em}
+
+/* ---------- RSVP ---------- */
+.rsvp{background:var(--haldi);padding-block:70px}
+.rsvp h2 .dev{font-size:clamp(2.4rem,8vw,4.4rem);color:var(--sindoor)}
+.rsvp h2 .script{display:block;font-size:clamp(1.4rem,4vw,2rem);color:var(--ink);margin-top:-4px}
+.rsvp .by{font-family:var(--f-pix);font-size:.8rem;margin-top:8px}
+form.card{margin-top:24px;display:grid;gap:26px}
+.q > label,.q > .ql{display:block;font-family:var(--f-pix);font-size:.78rem;letter-spacing:.1em;margin-bottom:8px;font-weight:700}
+.q input[type=text],.q input[type=tel],.q textarea{width:100%;border:3px solid var(--ink);border-radius:12px;padding:11px 13px;font:inherit;background:#fff}
+.q textarea{min-height:84px;resize:vertical}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:inline-flex;align-items:center;gap:6px;border:3px solid var(--ink);border-radius:999px;padding:9px 16px;background:#fff;font-weight:700;transition:transform .1s}
+.opt input:checked + span{background:var(--ink);color:var(--haldi);transform:rotate(-2deg)}
+.opt input:focus-visible + span{outline:3px solid var(--rani);outline-offset:2px}
+.opt input:disabled + span{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+.big-opts .opt span{font-family:var(--f-chunk);font-weight:400;font-size:1rem;padding:12px 18px}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.slot span{display:grid!important;gap:2px;border-radius:14px!important;height:100%;align-content:start}
+.slot small{font-weight:500;font-size:.8rem;opacity:.8}
+.slot em{font-style:normal;font-family:var(--f-pix);font-size:.68rem}
+.fits{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.fit span{display:grid!important;border-radius:14px!important;padding:0!important;overflow:hidden;height:100%}
+.fit i{display:block;height:46px}
+.fit b{padding:6px 10px 0;font-family:var(--f-chunk);font-weight:400;font-size:.85rem}
+.fit small{padding:0 10px 8px;font-size:.75rem;font-weight:500}
+.fit input:checked + span{transform:rotate(-2deg) scale(1.03);box-shadow:4px 4px 0 var(--ink)}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:640px){.row2{grid-template-columns:1fr}}
+.hint{font-size:.85rem;color:#4b3a2c;margin-top:6px}
+.form-err{color:var(--sindoor);font-weight:700}
+.submit-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.submit-row .btn{font-size:1.15rem;background:var(--sindoor);color:var(--cream);padding:14px 26px}
+.done{text-align:center;display:grid;gap:10px;justify-items:center}
+.done h3{margin:0;font-family:var(--f-dev);font-size:2.6rem;color:var(--sindoor)}
+.done .sum{background:#fff;border:3px dashed var(--ink);border-radius:14px;padding:14px 18px;text-align:left;max-width:460px;width:100%}
+.done .sum div{padding:3px 0}
+
+/* ---------- FIT CHECK + PLAYLIST ---------- */
+.board{background:var(--mor);color:var(--cream);padding-block:70px}
+.board .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+@media (max-width:820px){.board .grid{grid-template-columns:1fr}}
+.board h2 .dev{font-size:clamp(2rem,6vw,3.2rem);color:var(--haldi)}
+.board .card{color:var(--ink)}
+.bars{display:grid;gap:10px;margin-top:14px}
+.bar{display:grid;grid-template-columns:120px minmax(0,1fr) 30px;gap:10px;align-items:center;font-weight:700;font-size:.92rem}
+.bar .track{height:22px;border:2px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
+.bar .fill{height:100%;border-radius:999px;transition:width .8s ease}
+.bar .n{font-family:var(--f-chunk);text-align:right}
+.songs{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px;counter-reset:s}
+.songs li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:center;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px 10px;counter-increment:s}
+.songs li::before{content:counter(s,decimal-leading-zero);font-family:var(--f-pix);font-weight:700;color:var(--rani)}
+.songs li small{display:block;color:#6b5a4a;font-size:.8rem}
+.empty{color:#6b5a4a;font-style:italic;margin-top:12px}
+
+/* ---------- GOSSIP ARCHIVE ---------- */
+.gossip{background:var(--cream);padding-block:70px}
+.gossip-head{background:var(--rani);color:var(--cream);border:3px solid var(--ink);border-radius:22px;padding:28px;box-shadow:8px 8px 0 var(--ink)}
+.gossip-head h2 .dev{font-size:clamp(2.2rem,7vw,4rem);color:var(--cream)}
+.gossip-head h2 .script{display:block;font-size:clamp(2.2rem,8vw,4.6rem);color:var(--haldi);line-height:1}
+.gossip-head p{margin:8px 0 0;max-width:48ch}
+.gossip-head .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.polas{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:22px;margin-top:30px}
+.pola{background:#fff;padding:10px 10px 14px;border:1px solid #0002;box-shadow:0 10px 24px #0002;transform:rotate(var(--r,-2deg));transition:transform .2s}
+.pola:hover{transform:rotate(0) scale(1.03)}
+.pola .ph{aspect-ratio:1;background:#2a1d18;display:grid;place-items:center;overflow:hidden}
+.pola .ph img{width:100%;height:100%;object-fit:cover}
+.pola .tape{display:block;width:70px;height:20px;background:#ffc20eaa;margin:-20px auto 6px;position:relative;transform:rotate(-4deg)}
+.pola p{margin:8px 0 0;font-family:var(--f-script);font-style:italic;font-weight:700;font-size:1rem}
+.pola small{color:#6b5a4a;font-size:.8rem}
+.pola.ghost .ph{background:repeating-linear-gradient(45deg,#efe4cc 0 12px,#e6d8bb 12px 24px);color:#8a7356;font-family:var(--f-pix);font-size:.75rem;text-align:center;padding:10px}
+.upload{margin-top:22px}
+.upload form{display:grid;gap:16px}
+.preview-img{max-height:220px;border-radius:10px;border:3px solid var(--ink)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink);color:#e9d7c2;padding-block:44px 80px;text-align:center}
+footer .dev{font-size:2.2rem;color:var(--haldi)}
+footer a{color:var(--haldi)}
+
+/* confetti canvas */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:90;width:100%;height:100%}
+
+@media (prefers-reduced-motion:reduce){
+  .sunburst,.ticker .track,.hero-diya,.tap-hint,.lit .flame{animation:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== GATE: light the diya ===== -->
+<div id="gate" role="dialog" aria-label="Light the diya to open the invite">
+  <div class="stars"></div>
+  <div class="inner">
+    <div class="kicker" style="color:#e9d7c2">Ek invite aaya hai ✉</div>
+    <h1 class="dev">दिया जलाओ</h1>
+    <button class="gate-diya" id="gateDiya" aria-label="Light the diya">
+      <svg viewBox="0 0 300 260" aria-hidden="true">
+        <defs>
+          <radialGradient id="gHalo"><stop offset="0" stop-color="#ffd76a" stop-opacity=".9"/><stop offset=".4" stop-color="#ff9a2e" stop-opacity=".35"/><stop offset="1" stop-color="#ff9a2e" stop-opacity="0"/></radialGradient>
+          <linearGradient id="gFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff6a00"/><stop offset=".5" stop-color="#ffc20e"/><stop offset="1" stop-color="#fff6c9"/></linearGradient>
+          <linearGradient id="gClay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9772f"/><stop offset="1" stop-color="#8d3a12"/></linearGradient>
+        </defs>
+        <circle class="halo" cx="150" cy="120" r="130" fill="url(#gHalo)"/>
+        <path d="M40 150 Q150 260 260 150 Q230 140 200 150 Q150 165 100 150 Q70 140 40 150Z" fill="url(#gClay)"/>
+        <path d="M40 150 Q70 140 100 150 Q150 165 200 150 Q230 140 260 150 Q250 132 228 138 L170 150 Q150 152 130 150 L72 138 Q50 132 40 150Z" fill="#5a230a"/>
+        <path d="M96 196 Q150 220 204 196" stroke="#ffc20e" stroke-width="4" fill="none" stroke-dasharray="2 9" stroke-linecap="round"/>
+        <rect x="146" y="118" width="8" height="28" rx="3" fill="#3a2010"/>
+        <g class="flame"><path d="M150 40 C178 80 176 108 150 122 C124 108 122 80 150 40Z" fill="url(#gFlame)"/><path d="M150 80 C160 96 158 110 150 116 C142 110 140 96 150 80Z" fill="#fffbe8"/></g>
+      </svg>
+    </button>
+    <div class="tap-hint" id="tapHint">▲ tap karo, invite khulega ▲</div>
+  </div>
+</div>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<main>
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="sunburst" aria-hidden="true"></div>
+  <div class="hero-top wrap" style="z-index:2">
+    <span class="logo-chip"><i>✦</i><span data-cfg="hostChip">CHHAT SCENE</span></span>
+    <span class="heads" id="heads" hidden></span>
+  </div>
+  <div class="wrap">
+    <div>
+      <div class="kicker" style="color:var(--haldi)">Diwali party · Gurgaon · terrace edition</div>
+      <h1><span class="t1 dev">छत वाली</span><span class="t2 script">Diwali</span></h1>
+      <p class="sub">Diyas, golgappe, teen patti and a <i>thoda filmy</i> DJ, all on the chhat. You're in, if you want to be.</p>
+      <div class="countdown" id="countdown" aria-label="Countdown to the party">
+        <div class="cd"><b id="cdD">--</b><span>DIN</span></div>
+        <div class="cd"><b id="cdH">--</b><span>GHANTE</span></div>
+        <div class="cd"><b id="cdM">--</b><span>MINUTE</span></div>
+        <div class="cd"><b id="cdS">--</b><span>SECOND</span></div>
+      </div>
+      <div class="hero-cta">
+        <a class="btn" href="#invite">Scratch karo ↓</a>
+        <a class="btn alt" href="#rsvp">Seedha RSVP</a>
+      </div>
+    </div>
+    <svg class="hero-diya" viewBox="0 0 400 360" aria-hidden="true">
+      <defs>
+        <linearGradient id="brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset=".45" stop-color="#d79a1e"/><stop offset="1" stop-color="#8a5a06"/></linearGradient>
+        <linearGradient id="brass2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7790f"/><stop offset="1" stop-color="#6d4504"/></linearGradient>
+        <radialGradient id="hHalo"><stop offset="0" stop-color="#fff2a8" stop-opacity=".95"/><stop offset=".5" stop-color="#ffb000" stop-opacity=".3"/><stop offset="1" stop-color="#ffb000" stop-opacity="0"/></radialGradient>
+        <linearGradient id="hFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff5a00"/><stop offset=".55" stop-color="#ffc20e"/><stop offset="1" stop-color="#fffbe0"/></linearGradient>
+      </defs>
+      <circle cx="200" cy="110" r="110" fill="url(#hHalo)"/>
+      <path d="M200 30 C232 74 230 112 200 128 C170 112 168 74 200 30Z" fill="url(#hFlame)"/>
+      <path d="M200 78 C212 96 210 112 200 120 C190 112 188 96 200 78Z" fill="#fffef2"/>
+      <path d="M60 170 Q200 330 340 170 Z" fill="url(#brass)" stroke="#5a3a02" stroke-width="4"/>
+      <ellipse cx="200" cy="170" rx="140" ry="22" fill="url(#brass2)" stroke="#5a3a02" stroke-width="4"/>
+      <ellipse cx="200" cy="168" rx="118" ry="14" fill="#3d2602"/>
+      <path d="M110 220 Q200 270 290 220" stroke="#fff3c0" stroke-width="5" fill="none" stroke-dasharray="3 12" stroke-linecap="round" opacity=".8"/>
+      <path d="M150 300 L250 300 L270 330 L130 330Z" fill="url(#brass)" stroke="#5a3a02" stroke-width="4"/>
+      <rect x="185" y="262" width="30" height="40" fill="url(#brass2)" stroke="#5a3a02" stroke-width="4"/>
+    </svg>
+  </div>
+  <div class="sticker">& ek surprise bhi</div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
+
+<!-- ===== INVITE + SCRATCH ===== -->
+<section class="invite" id="invite">
+  <div class="wrap grid">
+    <div class="card">
+      <div class="kicker" style="color:var(--mehendi)">Official notice</div>
+      <h2 class="chunk">Scene on hai. <span class="script">Tu invited hai.</span></h2>
+      <p class="lead">The date, the time and one small plot twist are hidden under the foil. Scratch it like it's a lottery ticket.</p>
+      <div class="scratch" id="scratch">
+        <div class="under">
+          <small>SAVE THE DATE</small>
+          <div class="when"><span data-cfg="dateText"></span><br><span data-cfg="timeText"></span></div>
+          <div class="twist">Plot twist: it's also my birthday 🎂<br>(late hai, par legit hai)</div>
+        </div>
+        <canvas id="scratchCanvas" aria-label="Scratch card. Drag to scratch, or press Enter to reveal." tabindex="0"></canvas>
+      </div>
+      <div class="scratch-hint" id="scratchHint">← ungli ya mouse se ragdo · or press Enter</div>
+    </div>
+    <div class="details" id="details">
+      <h3>FULL DETAILS ✦</h3>
+      <dl style="margin:0">
+        <div class="drow"><dt>KYA</dt><dd>Diwali party on the chhat <span class="lockable">+ birthday cake</span></dd></div>
+        <div class="drow"><dt>KAB</dt><dd class="lockable"><span data-cfg="dateText"></span>, <span data-cfg="timeText"></span></dd></div>
+        <div class="drow"><dt>KAHAN</dt><dd><span data-cfg="venue"></span><br><small style="opacity:.8" data-cfg="address"></small></dd></div>
+        <div class="drow"><dt>DRESS</dt><dd data-cfg="dress"></dd></div>
+        <div class="drow"><dt>LAANA</dt><dd>One dish (you'll pick a slot in the RSVP) + your best dance moves</dd></div>
+        <div class="drow"><dt>HOST</dt><dd data-cfg="host"></dd></div>
+      </dl>
+      <div class="acts">
+        <a class="btn" href="#rsvp">RSVP karo</a>
+        <a class="btn alt" id="calBtn" href="#" target="_blank" rel="noopener">+ Calendar</a>
+        <a class="btn alt" id="mapBtn" href="#" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCENE LIST ===== -->
+<section class="scene" id="scene">
+  <div class="wrap grid">
+    <h2><span class="dev">सीन क्या है?</span><span class="pix">DIWALI<br>PARTY</span></h2>
+    <div>
+      <ul class="stack">
+        <li>CARDS <small>teen patti, no real money (mostly)</small></li>
+        <li>SWEETS <small>mithai + birthday cake</small></li>
+        <li>GOLGAPPE <small>unlimited, till you give up</small></li>
+        <li>RANGOLI <small>bring your inner artist</small></li>
+        <li>DJ <small>your song requests, in order</small></li>
+        <li>PHULJHADI <small>sparklers only, no rockets</small></li>
+        <li>AND ALL THINGS FILMY</li>
+      </ul>
+      <div class="ring">But make it chhat pe</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GAMES ===== -->
+<section class="games" id="games">
+  <div class="wrap">
+    <h2><span class="dev">खेल-खेल में</span></h2>
+    <p class="intro">Warm-up rounds before the real party. Your golgappa score goes in with your RSVP, so practise.</p>
+    <div class="tabs" role="tablist" aria-label="Games">
+      <button role="tab" aria-selected="true" aria-controls="g-golgappa" id="t-golgappa">Golgappa challenge</button>
+      <button role="tab" aria-selected="false" aria-controls="g-patakha" id="t-patakha">Patakha zone</button>
+      <button role="tab" aria-selected="false" aria-controls="g-patti" id="t-patti">Teen patti fortune</button>
+    </div>
+
+    <div class="game" role="tabpanel" id="g-golgappa" aria-labelledby="t-golgappa">
+      <h3>Golgappa challenge</h3>
+      <p class="how">You've got 15 seconds. Tap the golgappe to eat them. Watch out for the orange ones, they're extra teekha (−2).</p>
+      <div class="gg-top">
+        <div class="gg-score"><small>KHAYE</small><span id="ggScore">0</span></div>
+        <div class="gg-score"><small>TIME</small><span id="ggTime">15</span>s</div>
+        <div class="gg-score"><small>BEST</small><span id="ggBest">0</span></div>
+        <button class="btn" id="ggStart">Bhaiya, shuru karo!</button>
+      </div>
+      <div class="plate" id="plate"></div>
+      <div class="gg-result" id="ggResult" aria-live="polite"></div>
+    </div>
+
+    <div class="game" role="tabpanel" id="g-patakha" aria-labelledby="t-patakha" hidden>
+      <canvas id="fw" aria-label="Fireworks. Tap anywhere to burst a cracker."></canvas>
+      <div class="fw-ui">
+        <h3>Patakha zone</h3>
+        <p class="how">Tap anywhere for a burst. The terrace only gets sparklers on the night (there's a power line next door), so get it out of your system here.</p>
+        <div class="acts">
+          <button class="btn" id="fwAnar">Anaar jalao</button>
+          <button class="btn pink" id="fwShow">Full show 🎆</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game" role="tabpanel" id="g-patti" aria-labelledby="t-patti" hidden>
+      <h3>Teen patti fortune</h3>
+      <p class="how">Flip all three cards to see your party fortune.</p>
+      <div class="cards" id="cards"></div>
+      <div class="tp-verdict" id="tpVerdict" aria-live="polite"></div>
+      <div style="text-align:center;margin-top:12px"><button class="btn alt" id="tpAgain" hidden>Phir se baanto</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RSVP ===== -->
+<section class="rsvp" id="rsvp">
+  <div class="wrap">
+    <h2><span class="dev">हाज़िरी लगाओ</span><span class="script">RSVP kar, drama mat kar.</span></h2>
+    <div class="by">RSVP BY <span data-cfg="rsvpBy"></span> · you can change it later by sending again with the same name + number</div>
+
+    <form class="card" id="rsvpForm" novalidate>
+      <div class="row2">
+        <div class="q"><label for="fName">TERA NAAM</label><input type="text" id="fName" autocomplete="name" required placeholder="Jaise phone mein saved hai"></div>
+        <div class="q"><label for="fPhone">PHONE (for the WhatsApp group)</label><input type="tel" id="fPhone" autocomplete="tel" inputmode="tel" placeholder="98xxxxxxxx"></div>
+      </div>
+
+      <div class="q"><div class="ql" id="lComing">AA RAHA/RAHI HAI?</div>
+        <div class="opts big-opts" role="radiogroup" aria-labelledby="lComing">
+          <label class="opt"><input type="radio" name="coming" value="yes"><span>Haan bhai, I'm in 🪔</span></label>
+          <label class="opt"><input type="radio" name="coming" value="maybe"><span>Shayad, dekhte hai</span></label>
+          <label class="opt"><input type="radio" name="coming" value="no"><span>Is baar nahi 😢</span></label>
+        </div>
+      </div>
+
+      <div id="yesBlock" hidden style="display:grid;gap:26px">
+        <div class="row2">
+          <div class="q"><div class="ql" id="lPlus">PLUS-ONE?</div>
+            <div class="opts" role="radiogroup" aria-labelledby="lPlus">
+              <label class="opt"><input type="radio" name="plus" value="0" checked><span>Solo aa raha</span></label>
+              <label class="opt"><input type="radio" name="plus" value="1"><span>+1</span></label>
+              <label class="opt"><input type="radio" name="plus" value="2"><span>+2</span></label>
+            </div>
+            <input type="text" id="fPlusNames" placeholder="Unka naam?" style="margin-top:10px" hidden>
+          </div>
+          <div class="q"><div class="ql" id="lFood">KHAANA</div>
+            <div class="opts" role="radiogroup" aria-labelledby="lFood">
+              <label class="opt"><input type="radio" name="food" value="veg"><span>Veg</span></label>
+              <label class="opt"><input type="radio" name="food" value="nonveg"><span>Non-veg</span></label>
+              <label class="opt"><input type="radio" name="food" value="jain"><span>Jain</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="q"><div class="ql" id="lDrink">DRINK OF CHOICE (pick all that apply)</div>
+          <div class="opts" role="group" aria-labelledby="lDrink" id="drinkOpts"></div>
+        </div>
+
+        <div class="q"><div class="ql" id="lSlot">POTLUCK SLOT (pick one, slots that are taken get crossed out)</div>
+          <div class="slots" role="radiogroup" aria-labelledby="lSlot" id="slotOpts"></div>
+          <input type="text" id="fDish" placeholder="Kya laa rahe ho? e.g. Mom's dahi bhalle" style="margin-top:10px">
+        </div>
+
+        <div class="q"><div class="ql" id="lFit">FIT CHECK: KIS RANG MEIN AAOGE?</div>
+          <div class="fits" role="radiogroup" aria-labelledby="lFit" id="fitOpts"></div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="q"><label for="fSong">GAANE KI FARMAISH 🎶</label><input type="text" id="fSong" placeholder="e.g. Kajra Re, or the song you'll cry to"></div>
+        <div class="q"><label for="fWish">BIRTHDAY WISH (for the host 🎂)</label><textarea id="fWish" placeholder="Kuch acha likhna. Or roast me, your call."></textarea></div>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn" type="submit" id="submitBtn">Lock kar do 🔒</button>
+        <span class="form-err" id="formErr" role="alert"></span>
+      </div>
+    </form>
+
+    <div class="card done" id="done" hidden aria-live="polite">
+      <h3>Pakka! 🎉</h3>
+      <p id="doneMsg"></p>
+      <div class="sum" id="doneSum"></div>
+      <button class="btn alt" id="editBtn" type="button">Kuch change karna hai</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FIT CHECK + PLAYLIST BOARD ===== -->
+<section class="board" id="board">
+  <div class="wrap grid">
+    <div>
+      <h2><span class="dev">किस रंग में?</span></h2>
+      <p>The live fit-check count, so nobody turns up as the fifth person in Rani Gulabi.</p>
+      <div class="card"><div class="bars" id="fitBars"></div><p class="empty" id="fitEmpty">No fits yet. Be the trendsetter.</p></div>
+    </div>
+    <div>
+      <h2><span class="dev">फ़रमाइश</span></h2>
+      <p>The DJ's list so far. Add yours in the RSVP.</p>
+      <div class="card"><ol class="songs" id="songs"></ol><p class="empty" id="songsEmpty">No requests yet. Start the antakshari.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GOSSIP ARCHIVE ===== -->
+<section class="gossip" id="gossip">
+  <div class="wrap">
+    <div class="gossip-head">
+      <h2><span class="dev">दिवाली की</span><span class="script">gossip archive</span></h2>
+      <p id="gossipLead">Proof that it happened. Upload your blurry, flash-on, 2 am pictures here after the party.</p>
+      <div class="acts">
+        <button class="btn" id="uploadToggle" type="button">Add your pic +</button>
+      </div>
+    </div>
+
+    <div class="card upload" id="uploadCard" hidden>
+      <form id="upForm" novalidate>
+        <div class="row2">
+          <div class="q"><label for="uName">TERA NAAM</label><input type="text" id="uName" placeholder="Credit kisko de?"></div>
+          <div class="q"><label for="uFile">PHOTO</label><input type="file" id="uFile" accept="image/*"></div>
+        </div>
+        <img id="uPrev" class="preview-img" alt="Preview of your photo" hidden>
+        <div class="q"><div class="ql" id="lCap">CAPTION</div>
+          <div class="opts" role="radiogroup" aria-labelledby="lCap" id="capOpts"></div>
+        </div>
+        <div class="submit-row"><button class="btn pink" type="submit" id="upBtn">Archive mein daalo</button><span class="form-err" id="upErr" role="alert"></span></div>
+      </form>
+    </div>
+
+    <div class="polas" id="polas"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="dev">मिलते हैं छत पे ✦</div>
+  <p>Questions, directions, or "can I bring my cousin"? <span id="waWrap"></span></p>
+  <p style="font-size:.8rem;opacity:.7;margin-top:18px">Made with too much chai for <span data-cfg="host"></span>'s chhat wali Diwali.</p>
+</footer>
+
+<div class="demo-bar" id="demoBar" hidden>PREVIEW MODE: responses save only on this device until the Google Sheet is connected</div>
+
+<script>
+/* =========================================================
+   EDIT THESE FOR YOUR PARTY
+   ========================================================= */
+const CONFIG = {
+  host: "Jyotsna",
+  hostChip: "JYOTSNA'S CHHAT",
+  start: "2026-11-08T19:30:00+05:30",     // party start, India time  [PLACEHOLDER]
+  end:   "2026-11-09T01:00:00+05:30",     // for the calendar invite   [PLACEHOLDER]
+  dateText: "Sunday, 8 Nov",              // [PLACEHOLDER]
+  timeText: "7:30 PM onwards",            // [PLACEHOLDER]
+  venue: "Jyotsna's terrace, Gurgaon",    // [PLACEHOLDER]
+  address: "Full address shared after you RSVP",  // [PLACEHOLDER]
+  mapsUrl: "",                            // Google Maps link [PLACEHOLDER]
+  dress: "Desi, but make it filmy. Pick your colour below.",
+  rsvpBy: "4 NOV",                        // [PLACEHOLDER]
+  whatsapp: "",                           // e.g. "919876543210" [PLACEHOLDER]
+  sheetUrl: "",                           // Google Apps Script web app URL (leave empty = preview mode)
+  galleryOpens: "2026-11-08T18:00:00+05:30"  // when photo uploads unlock
+};
+
+const SLOTS = [
+  {id:"starter_veg", label:"Starter: veg", hint:"paneer tikka, hara bhara kebab", cap:2},
+  {id:"starter_nonveg", label:"Starter: non-veg", hint:"chicken tikka, seekh, fish fingers", cap:2},
+  {id:"main_veg", label:"Main: veg gravy", hint:"shahi paneer, kofta", cap:1},
+  {id:"main_nonveg", label:"Main: non-veg", hint:"butter chicken, mutton curry", cap:1},
+  {id:"dal", label:"Dal / rajma", hint:"dal makhani supremacy", cap:1},
+  {id:"rice", label:"Rice / biryani", hint:"biryani or pulao", cap:1},
+  {id:"chaat", label:"Chaat / salad", hint:"dahi bhalle, papdi chaat", cap:1},
+  {id:"dessert", label:"Dessert", hint:"gulab jamun, phirni", cap:1},
+  {id:"assign", label:"Host decides", hint:"I'll bring whatever's missing", cap:99}
+];
+const DRINKS = ["Whisky","Vodka","Gin","Rum","Beer","Wine","Mocktail only"];
+const FITS = [
+  {id:"laal", name:"Sindoori Laal", note:"main character energy", c:"#c8201a"},
+  {id:"haldi", name:"Haldi Peela", note:"ghar ki shaadi vibes", c:"#ffc20e"},
+  {id:"hara", name:"Mehendi Hara", note:"calm, but dangerous", c:"#1d8a3c"},
+  {id:"gulabi", name:"Rani Gulabi", note:"full Bollywood", c:"#e3177a"},
+  {id:"mor", name:"Mor Pankh", note:"peacock blue, classy", c:"#0f6e8c"},
+  {id:"narangi", name:"Narangi Barfi", note:"sweet + loud", c:"#f26b1d"},
+  {id:"sona", name:"Sona Sona", note:"gold, obviously", c:"#c9a227"},
+  {id:"kaala", name:"Kaala Jaadu", note:"black, mysterious", c:"#1b120f"}
+];
+const CAPTIONS = ["Main character moment","Core memory unlocked","No context, just vibes","Full too filmy","Kal subah ka regret","Rangoli pe dhyaan mat do"];
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const DEMO = !CONFIG.sheetUrl;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+$$("[data-cfg]").forEach(el => { const v = CONFIG[el.dataset.cfg]; if (v) el.textContent = v; });
+if (DEMO) $("#demoBar").hidden = false;
+
+/* ---------- gate ---------- */
+(function(){
+  const gate = $("#gate"), btn = $("#gateDiya");
+  let opened = false;
+  function open(){
+    if (opened) return; opened = true;
+    btn.classList.add("lit"); $("#tapHint").textContent = "✦ Shubh Deepawali ✦";
+    setTimeout(() => { gate.classList.add("open"); document.body.style.overflow = ""; burstConfetti(80); }, reduced ? 200 : 1500);
+  }
+  document.body.style.overflow = "hidden";
+  btn.addEventListener("click", open);
+  gate.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+})();
+
+/* ---------- countdown ---------- */
+(function(){
+  const t = new Date(CONFIG.start).getTime();
+  const pad = n => String(n).padStart(2, "0");
+  function tick(){
+    let d = Math.max(0, t - Date.now());
+    const D = Math.floor(d / 864e5); d -= D * 864e5;
+    const H = Math.floor(d / 36e5); d -= H * 36e5;
+    const M = Math.floor(d / 6e4); d -= M * 6e4;
+    const S = Math.floor(d / 1e3);
+    $("#cdD").textContent = pad(D); $("#cdH").textContent = pad(H); $("#cdM").textContent = pad(M); $("#cdS").textContent = pad(S);
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+/* ---------- ticker ---------- */
+(function(){
+  const words = ["FULL DIWALI SCENE","<em>golgappe</em>","TEEN PATTI","<em>genda phool</em>","DJ ON THE CHHAT","<em>thoda drama</em>","BIRTHDAY CAKE","<em>questionable dance moves</em>","PHULJHADI"];
+  const one = words.map(w => `<span>${w}</span><span>✦</span>`).join("");
+  $("#ticker").innerHTML = one + one;
+})();
+
+/* ---------- calendar + map + whatsapp ---------- */
+(function(){
+  const z = s => new Date(s).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent("Chhat wali Diwali @ " + CONFIG.host + "'s") +
+    "&dates=" + z(CONFIG.start) + "/" + z(CONFIG.end) + "&details=" + encodeURIComponent("Diwali party on the terrace. Bring your potluck dish!\n" + location.href) +
+    "&location=" + encodeURIComponent(CONFIG.address || CONFIG.venue);
+  $("#calBtn").href = url;
+  if (CONFIG.mapsUrl) $("#mapBtn").href = CONFIG.mapsUrl; else $("#mapBtn").hidden = true;
+  if (CONFIG.whatsapp) $("#waWrap").innerHTML = `<a href="https://wa.me/${esc(CONFIG.whatsapp)}" target="_blank" rel="noopener">WhatsApp ${esc(CONFIG.host)}</a>`;
+  else $("#waWrap").textContent = "Message " + CONFIG.host + " directly.";
+})();
+
+/* ---------- scratch card ---------- */
+(function(){
+  const cv = $("#scratchCanvas"), ctx = cv.getContext("2d");
+  let done = false, drawing = false;
+  const locks = $$(".lockable"); locks.forEach(el => el.classList.add("locked"));
+  function paint(){
+    const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const g = ctx.createLinearGradient(0, 0, r.width, r.height);
+    g.addColorStop(0, "#f7d774"); g.addColorStop(.35, "#c9971f"); g.addColorStop(.6, "#ffe9a3"); g.addColorStop(1, "#a8770c");
+    ctx.globalCompositeOperation = "source-over"; ctx.fillStyle = g; ctx.fillRect(0, 0, r.width, r.height);
+    ctx.fillStyle = "rgba(90,58,2,.25)";
+    for (let i = 0; i < 260; i++) ctx.fillRect(Math.random()*r.width, Math.random()*r.height, 2, 2);
+    ctx.fillStyle = "#5a3a02"; ctx.textAlign = "center";
+    ctx.font = "26px Bungee, 'Arial Black', sans-serif"; ctx.fillText("RAGDO!", r.width/2, r.height/2 - 4);
+    ctx.font = "13px Silkscreen, monospace"; ctx.fillText("scratch to reveal", r.width/2, r.height/2 + 22);
+  }
+  function reveal(){
+    if (done) return; done = true;
+    cv.style.transition = "opacity .6s"; cv.style.opacity = "0"; setTimeout(() => cv.hidden = true, 650);
+    locks.forEach(el => el.classList.remove("locked"));
+    $("#scratchHint").textContent = "✦ Surprise! Cake bhi hai.";
+    burstConfetti(120);
+  }
+  function scratch(e){
+    if (!drawing || done) return;
+    const r = cv.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath(); ctx.arc(x, y, 24, 0, Math.PI*2); ctx.fill();
+    check();
+  }
+  let lastCheck = 0;
+  function check(){
+    const now = Date.now(); if (now - lastCheck < 120) return; lastCheck = now;
+    const d = ctx.getImageData(0, 0, cv.width, cv.height).data; let clear = 0, n = 0;
+    for (let i = 3; i < d.length; i += 64){ n++; if (d[i] < 40) clear++; }
+    if (clear / n > .5) reveal();
+  }
+  cv.addEventListener("pointerdown", e => { drawing = true; cv.setPointerCapture(e.pointerId); scratch(e); });
+  cv.addEventListener("pointermove", scratch);
+  cv.addEventListener("pointerup", () => drawing = false);
+  cv.addEventListener("pointercancel", () => drawing = false);
+  cv.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); } });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!done) paint(); });
+  paint();
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (!done) paint(); }, 150); });
+})();
+
+/* ---------- confetti ---------- */
+const confettiCv = $("#confetti"), cctx = confettiCv.getContext("2d");
+let confetti = [], confettiRunning = false;
+function burstConfetti(n){
+  if (reduced) return;
+  confettiCv.width = innerWidth; confettiCv.height = innerHeight;
+  const cols = ["#ffc20e","#e3177a","#c8201a","#1d8a3c","#0f6e8c","#f26b1d","#fbf0d9"];
+  for (let i = 0; i < n; i++) confetti.push({x: innerWidth/2 + (Math.random()-.5)*innerWidth*.4, y: innerHeight*.35, vx:(Math.random()-.5)*12, vy: -Math.random()*12-4, r: Math.random()*6+4, c: cols[i%cols.length], a: Math.random()*6, va:(Math.random()-.5)*.3, life: 0, petal: Math.random() < .35});
+  if (!confettiRunning){ confettiRunning = true; requestAnimationFrame(stepConfetti); }
+}
+function stepConfetti(){
+  cctx.clearRect(0, 0, confettiCv.width, confettiCv.height);
+  confetti.forEach(p => { p.vy += .32; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.a += p.va; p.life++;
+    cctx.save(); cctx.translate(p.x, p.y); cctx.rotate(p.a); cctx.fillStyle = p.c;
+    if (p.petal){ cctx.beginPath(); cctx.ellipse(0, 0, p.r, p.r*.55, 0, 0, Math.PI*2); cctx.fill(); } else cctx.fillRect(-p.r/2, -p.r/4, p.r, p.r/2);
+    cctx.restore(); });
+  confetti = confetti.filter(p => p.y < confettiCv.height + 40 && p.life < 400);
+  if (confetti.length) requestAnimationFrame(stepConfetti); else { confettiRunning = false; cctx.clearRect(0,0,confettiCv.width,confettiCv.height); }
+}
+
+/* ---------- game tabs ---------- */
+$$(".tabs button").forEach(b => b.addEventListener("click", () => {
+  $$(".tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  $$(".game").forEach(p => p.hidden = (p.id !== b.getAttribute("aria-controls")));
+  if (b.id === "t-patakha") fw.resize();
+}));
+
+/* ---------- golgappa game ---------- */
+const gg = (function(){
+  const plate = $("#plate");
+  const pos = [[50,22],[76,34],[80,62],[62,80],[36,80],[20,60],[26,34],[50,50]];
+  const SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="56" rx="40" ry="36" class="shell" fill="#e0a54a"/><ellipse cx="50" cy="52" rx="36" ry="31" fill="#f1c26c"/><ellipse cx="46" cy="40" rx="12" ry="7" fill="#fff2" /><circle cx="50" cy="44" r="9" fill="#7a4413"/><circle cx="36" cy="64" r="2" fill="#c98a33"/><circle cx="64" cy="66" r="2" fill="#c98a33"/><circle cx="56" cy="72" r="1.5" fill="#c98a33"/></svg>';
+  let score = 0, time = 15, timer = null, playing = false;
+  let best = store.get("ggBest", 0); $("#ggBest").textContent = best;
+  pos.forEach(([x,y], i) => {
+    const b = document.createElement("button"); b.className = "gg"; b.type = "button";
+    b.style.left = x + "%"; b.style.top = y + "%"; b.innerHTML = SVG; b.setAttribute("aria-label", "Golgappa");
+    b.addEventListener("click", e => eat(b, e)); plate.appendChild(b);
+  });
+  function pop(text, x, y){
+    const s = document.createElement("div"); s.className = "splash"; s.textContent = text;
+    s.style.left = x + "px"; s.style.top = y + "px"; plate.appendChild(s); setTimeout(() => s.remove(), 800);
+  }
+  function eat(b, e){
+    if (!playing || b.classList.contains("eaten")) return;
+    const spicy = b.classList.contains("spicy");
+    score = Math.max(0, score + (spicy ? -2 : 1)); $("#ggScore").textContent = score;
+    const r = plate.getBoundingClientRect(), br = b.getBoundingClientRect();
+    pop(spicy ? "TEEKHA! −2" : ["CRUNCH!","+1","Bhaiya ek aur!","Pani ✦","+1"][Math.floor(Math.random()*5)], br.left - r.left + br.width/2, br.top - r.top);
+    b.classList.add("eaten");
+    setTimeout(() => { b.classList.remove("eaten"); b.classList.toggle("spicy", Math.random() < .2); }, 380 + Math.random()*500);
+    if (navigator.vibrate) try{ navigator.vibrate(12); }catch(_){}
+  }
+  function verdict(s){
+    if (s < 8) return "Bas? Aunty ne tumse zyada khaye.";
+    if (s < 16) return "Theek hai, chalega. Practice karo.";
+    if (s < 26) return "Golgappa champion! Stall waale bhaiya proud hai.";
+    return "Bhaiya stall band kar ke bhaag gaye. Legend.";
+  }
+  $("#ggStart").addEventListener("click", () => {
+    if (playing) return;
+    score = 0; time = 15; playing = true; $("#ggScore").textContent = 0; $("#ggTime").textContent = time; $("#ggResult").textContent = "";
+    $("#ggStart").textContent = "Khaate raho!";
+    $$(".gg").forEach(b => b.classList.toggle("spicy", Math.random() < .2));
+    timer = setInterval(() => {
+      time--; $("#ggTime").textContent = time;
+      if (time <= 0){
+        clearInterval(timer); playing = false; $("#ggStart").textContent = "Ek aur round?";
+        if (score > best){ best = score; store.set("ggBest", best); $("#ggBest").textContent = best; }
+        $("#ggResult").textContent = score + " golgappe. " + verdict(score);
+        if (score >= 16) burstConfetti(60);
+      }
+    }, 1000);
+  });
+  return { best: () => best };
+})();
+
+/* ---------- fireworks ---------- */
+const fw = (function(){
+  const cv = $("#fw"), ctx = cv.getContext("2d");
+  let parts = [], rockets = [], running = false, W = 0, H = 0;
+  const cols = ["#ffc20e","#e3177a","#ff5a3c","#3dff9a","#4dd6ff","#fff3c4","#b98cff"];
+  function resize(){ const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1; W = r.width; H = r.height; cv.width = W*d; cv.height = H*d; ctx.setTransform(d,0,0,d,0,0); }
+  function burst(x, y, n = 70, c){
+    const col = c || cols[Math.floor(Math.random()*cols.length)], col2 = cols[Math.floor(Math.random()*cols.length)];
+    for (let i = 0; i < n; i++){ const a = Math.PI*2*i/n, s = Math.random()*4 + 2; parts.push({x, y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: 60 + Math.random()*30, c: i%3 ? col : col2, size: 2.2}); }
+    go();
+  }
+  function rocket(x){ rockets.push({x: x ?? (W*.15 + Math.random()*W*.7), y: H, vy: -(H/55) - Math.random()*3, ty: H*(.18 + Math.random()*.25)}); go(); }
+  function anaar(){ let k = 0; const iv = setInterval(() => { for (let i = 0; i < 9; i++) parts.push({x: W/2, y: H - 10, vx: (Math.random()-.5)*3.2, vy: -Math.random()*9 - 5, life: 55 + Math.random()*25, c: Math.random() < .6 ? "#ffd36b" : "#fff3c4", size: 1.8}); go(); if (++k > 70) clearInterval(iv); }, 30); }
+  function go(){ if (!running){ running = true; requestAnimationFrame(step); } }
+  function step(){
+    ctx.fillStyle = "rgba(36,19,48,.28)"; ctx.fillRect(0, 0, W, H);
+    rockets.forEach(r => { r.y += r.vy; ctx.fillStyle = "#ffe9a3"; ctx.fillRect(r.x-1.5, r.y, 3, 10); if (r.y <= r.ty){ r.dead = true; burst(r.x, r.y, 90); } });
+    rockets = rockets.filter(r => !r.dead);
+    parts.forEach(p => { p.vy += .06; p.vx *= .985; p.vy *= .985; p.x += p.vx; p.y += p.vy; p.life--;
+      ctx.globalAlpha = Math.max(0, Math.min(1, p.life/40)); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); });
+    ctx.globalAlpha = 1;
+    parts = parts.filter(p => p.life > 0);
+    if (parts.length || rockets.length) requestAnimationFrame(step);
+    else { running = false; ctx.clearRect(0,0,W,H); }
+  }
+  cv.addEventListener("pointerdown", e => { const r = cv.getBoundingClientRect(); burst(e.clientX - r.left, e.clientY - r.top); if (navigator.vibrate) try{ navigator.vibrate(20); }catch(_){} });
+  $("#fwAnar").addEventListener("click", anaar);
+  $("#fwShow").addEventListener("click", () => { for (let i = 0; i < 9; i++) setTimeout(() => rocket(), i*260); });
+  addEventListener("resize", () => { if (!$("#g-patakha").hidden) resize(); });
+  return { resize };
+})();
+
+/* ---------- teen patti ---------- */
+(function(){
+  const FORT = [
+    "Aaj raat dance floor tera hai","Tu teen patti mein haarega, par dil jeetega","Golgappa count: 30+, pakka","Someone will steal your dupatta for a photo",
+    "Tu DJ ko 4 baar 'ek aur' bolega","Rangoli competition ka judge tu hai","Tera outfit sabse zyada compliments lega","Midnight Maggi ka host tu hai",
+    "You will cry during Kal Ho Naa Ho","Tu sabse last mein jaayega","Tere photos sabse filmy aayenge","Aaj ka 'main character' tu hai"
+  ];
+  const RANKS = [["A","♥",1],["K","♠",0],["Q","♦",1],["J","♣",0],["10","♥",1],["7","♠",0],["3","♦",1],["9","♣",0]];
+  const wrap = $("#cards"); let flipped = 0;
+  function deal(){
+    wrap.innerHTML = ""; flipped = 0; $("#tpVerdict").textContent = ""; $("#tpAgain").hidden = true;
+    const f = FORT.slice().sort(() => Math.random() - .5).slice(0, 3);
+    const r = RANKS.slice().sort(() => Math.random() - .5).slice(0, 3);
+    f.forEach((txt, i) => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "pcard"; b.setAttribute("aria-label", "Flip card " + (i+1));
+      b.innerHTML = `<div class="face back"><span>दिवाली</span></div><div class="face front"><span class="rank ${r[i][2] ? "red" : ""}">${r[i][0]}${r[i][1]}</span><p>${esc(txt)}</p><span class="rank ${r[i][2] ? "red" : ""}" style="transform:rotate(180deg)">${r[i][0]}${r[i][1]}</span></div>`;
+      b.addEventListener("click", () => {
+        if (b.classList.contains("flip")) return; b.classList.add("flip"); flipped++;
+        if (flipped === 3){
+          const trail = Math.random() < .25;
+          $("#tpVerdict").textContent = trail ? "TRAIL! Aaj ki raat teri hai 🔥" : "Pure sequence of good vibes ✦";
+          $("#tpAgain").hidden = false; if (trail) burstConfetti(70);
+        }
+      });
+      wrap.appendChild(b);
+    });
+  }
+  $("#tpAgain").addEventListener("click", deal);
+  deal();
+})();
+
+/* ---------- shared state (sheet or demo) ---------- */
+let STATE = { slots:{}, fit:{}, songs:[], gallery:[], counts:{yes:0, maybe:0, no:0, heads:0} };
+async function loadState(){
+  if (DEMO){ STATE = demoState(); }
+  else {
+    try{ const r = await fetch(CONFIG.sheetUrl + "?action=state&t=" + Date.now()); const j = await r.json(); if (j && j.ok) STATE = j.state; }catch(e){}
+  }
+  renderShared();
+}
+function demoState(){
+  const rs = store.get("demoRsvps", []), gal = store.get("demoGallery", []);
+  const st = { slots:{}, fit:{}, songs:[], gallery: gal, counts:{yes:0, maybe:0, no:0, heads:0} };
+  rs.forEach(r => {
+    st.counts[r.coming] = (st.counts[r.coming] || 0) + 1;
+    if (r.coming === "yes"){ st.counts.heads += 1 + (+r.plus || 0); if (r.slot) st.slots[r.slot] = (st.slots[r.slot] || 0) + 1; if (r.fit) st.fit[r.fit] = (st.fit[r.fit] || 0) + 1; }
+    if (r.song) st.songs.push({song: r.song, by: r.name.split(" ")[0]});
+  });
+  return st;
+}
+function renderShared(){
+  // headcount chip
+  if (STATE.counts.heads > 0){ $("#heads").hidden = false; $("#heads").textContent = STATE.counts.heads + " log aa rahe hai"; }
+  // slots
+  const mySlot = (store.get("myRsvp", {}) || {}).slot;
+  $("#slotOpts").innerHTML = SLOTS.map(s => {
+    const taken = STATE.slots[s.id] || 0, left = s.cap - taken, full = left <= 0 && s.id !== mySlot;
+    const tag = s.cap > 50 ? "always open" : (full ? "TAKEN" : left + " of " + s.cap + " left");
+    return `<label class="opt slot"><input type="radio" name="slot" value="${s.id}" ${full ? "disabled" : ""}><span><b>${esc(s.label)}</b><small>${esc(s.hint)}</small><em>${tag}</em></span></label>`;
+  }).join("");
+  // fit bars
+  const total = Object.values(STATE.fit).reduce((a, b) => a + b, 0);
+  $("#fitEmpty").hidden = total > 0;
+  $("#fitBars").innerHTML = total ? FITS.map(f => { const n = STATE.fit[f.id] || 0;
+    return `<div class="bar"><span>${esc(f.name)}</span><div class="track"><div class="fill" style="width:${total ? n/total*100 : 0}%;background:${f.c}"></div></div><span class="n">${n}</span></div>`; }).join("") : "";
+  // songs
+  $("#songsEmpty").hidden = STATE.songs.length > 0;
+  $("#songs").innerHTML = STATE.songs.map(s => `<li><span>${esc(s.song)}<small>requested by ${esc(s.by)}</small></span></li>`).join("");
+  renderGallery();
+  restoreMyRsvp();
+}
+
+/* ---------- RSVP form ---------- */
+$("#drinkOpts").innerHTML = DRINKS.map(d => `<label class="opt"><input type="checkbox" name="drink" value="${d}"><span>${d}</span></label>`).join("");
+$("#fitOpts").innerHTML = FITS.map(f => `<label class="opt fit"><input type="radio" name="fit" value="${f.id}"><span><i style="background:${f.c}"></i><b>${esc(f.name)}</b><small>${esc(f.note)}</small></span></label>`).join("");
+const form = $("#rsvpForm");
+form.addEventListener("change", e => {
+  if (e.target.name === "coming") $("#yesBlock").hidden = e.target.value === "no";
+  if (e.target.name === "plus") $("#fPlusNames").hidden = e.target.value === "0";
+});
+function val(name){ const el = form.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ""; }
+function restoreMyRsvp(){
+  const r = store.get("myRsvp", null); if (!r || form.dataset.restored) return; form.dataset.restored = "1";
+  $("#fName").value = r.name || ""; $("#fPhone").value = r.phone || ""; $("#fDish").value = r.dish || ""; $("#fSong").value = r.song || ""; $("#fWish").value = r.wish || ""; $("#fPlusNames").value = r.plusNames || "";
+  [["coming", r.coming], ["plus", r.plus], ["food", r.food], ["slot", r.slot], ["fit", r.fit]].forEach(([n, v]) => { const el = form.querySelector(`input[name="${n}"][value="${v}"]`); if (el){ el.checked = true; el.dispatchEvent(new Event("change", {bubbles:true})); } });
+  (r.drinks || []).forEach(d => { const el = form.querySelector(`input[name="drink"][value="${d}"]`); if (el) el.checked = true; });
+}
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("#formErr"); err.textContent = "";
+  const data = {
+    type: "rsvp",
+    name: $("#fName").value.trim(), phone: $("#fPhone").value.trim(), coming: val("coming"),
+    plus: val("plus") || "0", plusNames: $("#fPlusNames").value.trim(), food: val("food"),
+    drinks: $$('input[name="drink"]:checked').map(x => x.value), slot: val("slot"), dish: $("#fDish").value.trim(),
+    fit: val("fit"), song: $("#fSong").value.trim(), wish: $("#fWish").value.trim(), golgappa: gg.best()
+  };
+  if (!data.name) { err.textContent = "Naam toh likho!"; $("#fName").focus(); return; }
+  if (!data.coming) { err.textContent = "Aa rahe ho ya nahi? Pick one."; return; }
+  if (data.coming !== "no" && !data.slot) { err.textContent = "Potluck slot choose karo (or 'Host decides')."; return; }
+  if (data.coming === "no") { data.plus = "0"; data.slot = ""; data.fit = ""; data.drinks = []; data.dish = ""; data.food = ""; }
+  const btn = $("#submitBtn"); btn.disabled = true; btn.textContent = "Bhej rahe hai…";
+  try{
+    if (DEMO){
+      const all = store.get("demoRsvps", []).filter(r => !(r.name.toLowerCase() === data.name.toLowerCase()));
+      all.push(data); store.set("demoRsvps", all);
+    } else {
+      const r = await fetch(CONFIG.sheetUrl, { method: "POST", body: JSON.stringify(data) });
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || "Something went wrong");
+    }
+    store.set("myRsvp", data);
+    showDone(data); await loadState();
+  }catch(ex){
+    err.textContent = ex.message === "slot_full" ? "Oops, that slot just got taken. Pick another one." : "Couldn't send. Check your internet and try again.";
+    if (ex.message === "slot_full") loadState();
+  }finally{ btn.disabled = false; btn.textContent = "Lock kar do 🔒"; }
+});
+function showDone(d){
+  form.hidden = true; $("#done").hidden = false;
+  const slot = SLOTS.find(s => s.id === d.slot), fit = FITS.find(f => f.id === d.fit);
+  $("#doneMsg").textContent = d.coming === "yes" ? "Tera naam list mein hai. See you on the chhat!" : d.coming === "maybe" ? "Noted as a maybe. Confirm by " + CONFIG.rsvpBy + ", okay?" : "Sad, but noted. Golgappe tumhe miss karenge.";
+  const rows = [["Naam", d.name], ["Status", {yes:"Aa raha/rahi 🪔", maybe:"Shayad", no:"Is baar nahi"}[d.coming]]];
+  if (d.coming !== "no"){ rows.push(["Plus-one", d.plus === "0" ? "Solo" : "+" + d.plus + (d.plusNames ? " (" + d.plusNames + ")" : "")]); if (slot) rows.push(["Laa rahe", slot.label + (d.dish ? ": " + d.dish : "")]); if (fit) rows.push(["Fit", fit.name]); if (d.drinks.length) rows.push(["Drinks", d.drinks.join(", ")]); }
+  if (d.song) rows.push(["Farmaish", d.song]);
+  $("#doneSum").innerHTML = rows.map(([k, v]) => `<div><b>${esc(k)}:</b> ${esc(v)}</div>`).join("");
+  if (d.coming === "yes") burstConfetti(160);
+  $("#done").scrollIntoView({behavior: reduced ? "auto" : "smooth", block: "center"});
+}
+$("#editBtn").addEventListener("click", () => { $("#done").hidden = true; form.hidden = false; delete form.dataset.restored; restoreMyRsvp(); form.scrollIntoView({behavior:"smooth"}); });
+
+/* ---------- gossip archive ---------- */
+const galleryOpen = () => Date.now() >= new Date(CONFIG.galleryOpens).getTime();
+$("#capOpts").innerHTML = CAPTIONS.map((c, i) => `<label class="opt"><input type="radio" name="cap" value="${esc(c)}" ${i === 0 ? "checked" : ""}><span>${esc(c)}</span></label>`).join("");
+function photoUrl(g){ return g.id ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(g.id) + "&sz=w800" : (g.data || ""); }
+function renderGallery(){
+  const open = galleryOpen(), items = STATE.gallery || [];
+  $("#uploadToggle").textContent = open ? "Add your pic +" : "Opens on party night 🔒";
+  $("#uploadToggle").disabled = !open;
+  if (!open) $("#gossipLead").textContent = "Proof that it happened. This unlocks on party night: upload your blurry, flash-on, 2 am pictures here.";
+  const rot = i => ["-3deg","2deg","-1deg","3deg","-2deg","1deg"][i % 6];
+  if (!items.length){
+    $("#polas").innerHTML = ["Main character moment","Core memory unlocked","No context, just vibes"].map((c, i) => `<div class="pola ghost" style="--r:${rot(i)}"><span class="tape"></span><div class="ph">Your pic here<br>after the party</div><p>${c}</p></div>`).join("");
+    return;
+  }
+  $("#polas").innerHTML = items.slice().reverse().map((g, i) => `<figure class="pola" style="--r:${rot(i)};margin:0"><span class="tape"></span><div class="ph"><img loading="lazy" src="${esc(photoUrl(g))}" alt="Party photo by ${esc(g.by)}"></div><p>${esc(g.caption)}</p><small>by ${esc(g.by)}</small></figure>`).join("");
+}
+$("#uploadToggle").addEventListener("click", () => { if (!galleryOpen()) return; $("#uploadCard").hidden = !$("#uploadCard").hidden; });
+let upData = null;
+$("#uFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; if (!f) return;
+  upData = await shrink(f, 1400, .82); $("#uPrev").src = upData; $("#uPrev").hidden = false;
+});
+function shrink(file, max, q){
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => { const s = Math.min(1, max / Math.max(img.width, img.height)); const c = document.createElement("canvas"); c.width = Math.round(img.width*s); c.height = Math.round(img.height*s); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", q)); };
+    img.onerror = rej; img.src = url;
+  });
+}
+$("#upForm").addEventListener("submit", async e => {
+  e.preventDefault(); const err = $("#upErr"); err.textContent = "";
+  const by = $("#uName").value.trim() || "Anonymous"; const caption = capVal();
+  if (!upData){ err.textContent = "Pehle photo toh choose karo."; return; }
+  const btn = $("#upBtn"); btn.disabled = true; btn.textContent = "Upload ho raha hai…";
+  try{
+    if (DEMO){ const g = store.get("demoGallery", []); g.push({by, caption, data: upData}); store.set("demoGallery", g); }
+    else { const r = await fetch(CONFIG.sheetUrl, {method:"POST", body: JSON.stringify({type:"photo", by, caption, image: upData})}); const j = await r.json(); if (!j.ok) throw new Error(j.error); }
+    upData = null; $("#uFile").value = ""; $("#uPrev").hidden = true; $("#uploadCard").hidden = true; burstConfetti(60); await loadState();
+  }catch(ex){ err.textContent = "Upload nahi hua. Try a smaller photo or check your internet."; }
+  finally{ btn.disabled = false; btn.textContent = "Archive mein daalo"; }
+});
+// the caption radios live outside the RSVP form, so read them directly
+function capVal(){ const el = document.querySelector('input[name="cap"]:checked'); return el ? el.value : ""; }
+
+loadState();
+</script>
+</body>
+</html>
