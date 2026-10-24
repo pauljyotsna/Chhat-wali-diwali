@@ -439,7 +439,7 @@ footer a{color:var(--haldi)}
 <section class="rsvp" id="rsvp">
   <div class="wrap">
     <h2><span class="dev">हाज़िरी लगाओ</span><span class="script">RSVP kar, drama mat kar.</span></h2>
-    <div class="by">RSVP BY <span data-cfg="rsvpBy"></span> · you can change it later by sending again with the same name + number</div>
+    <div class="by">RSVP BY <span data-cfg="rsvpBy"></span> · to change it later, send it again with the same name + number</div>
 
     <form class="card" id="rsvpForm" novalidate>
       <div class="row2">
@@ -503,6 +503,8 @@ footer a{color:var(--haldi)}
       <h3>Pakka! 🎉</h3>
       <p id="doneMsg"></p>
       <div class="sum" id="doneSum"></div>
+      <p style="margin:6px 0 0;max-width:40ch">Last step: send this to Jyotsna on WhatsApp. That's where you'll get the exact address and party updates.</p>
+      <a class="btn" id="waConfirm" href="#" target="_blank" rel="noopener" style="background:#25d366">Confirm on WhatsApp ✓</a>
       <button class="btn alt" id="editBtn" type="button">Kuch change karna hai</button>
     </div>
   </div>
@@ -556,7 +558,7 @@ footer a{color:var(--haldi)}
 
 <footer>
   <div class="dev">मिलते हैं छत पे ✦</div>
-  <p>Questions, directions, or "can I bring my cousin"? <span id="waWrap"></span></p>
+  <p>Questions, directions, or "can I bring my cousin"? RSVP, then tap <b>Confirm on WhatsApp</b> and ask me there.</p>
   <p style="font-size:.8rem;opacity:.7;margin-top:18px">Made with too much chai for <span data-cfg="host"></span>'s chhat wali Diwali.</p>
 </footer>
 
@@ -569,18 +571,18 @@ footer a{color:var(--haldi)}
 const CONFIG = {
   host: "Jyotsna",
   hostChip: "JYOTSNA'S CHHAT",
-  start: "2026-11-08T19:30:00+05:30",     // party start, India time  [PLACEHOLDER]
-  end:   "2026-11-09T01:00:00+05:30",     // for the calendar invite   [PLACEHOLDER]
-  dateText: "Sunday, 8 Nov",              // [PLACEHOLDER]
-  timeText: "7:30 PM onwards",            // [PLACEHOLDER]
-  venue: "Jyotsna's terrace, Gurgaon",    // [PLACEHOLDER]
-  address: "Full address shared after you RSVP",  // [PLACEHOLDER]
-  mapsUrl: "",                            // Google Maps link [PLACEHOLDER]
+  start: "2026-10-31T19:00:00+05:30",     // party start, India time
+  end:   "2026-11-01T01:00:00+05:30",     // for the calendar invite
+  dateText: "Saturday, 31 Oct",
+  timeText: "7 PM onwards",
+  venue: "Jyotsna's terrace, Sector 48, Gurgaon",
+  address: "Exact address comes on WhatsApp once you confirm",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sector+48+Gurugram+Haryana",
   dress: "Desi, but make it filmy. Pick your colour below.",
-  rsvpBy: "4 NOV",                        // [PLACEHOLDER]
-  whatsapp: "",                           // e.g. "919876543210" [PLACEHOLDER]
-  sheetUrl: "",                           // Google Apps Script web app URL (leave empty = preview mode)
-  galleryOpens: "2026-11-08T18:00:00+05:30"  // when photo uploads unlock
+  rsvpBy: "29 OCT",
+  wa: ["91","83681","86624"],               // host WhatsApp, kept in parts so it is not shown on the page
+  sheetUrl: "https://script.google.com/macros/s/AKfycbworjqsaJnPlTqsyzoHBugp7OT6lXz7pchCImrpgD1Bf4_gUOyX-4pzDvtvWngriXHppA/exec",
+  galleryOpens: "2026-10-31T18:00:00+05:30"  // when photo uploads unlock
 };
 
 const SLOTS = [
@@ -665,8 +667,6 @@ if (DEMO) $("#demoBar").hidden = false;
     "&location=" + encodeURIComponent(CONFIG.address || CONFIG.venue);
   $("#calBtn").href = url;
   if (CONFIG.mapsUrl) $("#mapBtn").href = CONFIG.mapsUrl; else $("#mapBtn").hidden = true;
-  if (CONFIG.whatsapp) $("#waWrap").innerHTML = `<a href="https://wa.me/${esc(CONFIG.whatsapp)}" target="_blank" rel="noopener">WhatsApp ${esc(CONFIG.host)}</a>`;
-  else $("#waWrap").textContent = "Message " + CONFIG.host + " directly.";
 })();
 
 /* ---------- scratch card ---------- */
@@ -941,7 +941,11 @@ form.addEventListener("submit", async e => {
     store.set("myRsvp", data);
     showDone(data); await loadState();
   }catch(ex){
-    err.textContent = ex.message === "slot_full" ? "Oops, that slot just got taken. Pick another one." : "Couldn't send. Check your internet and try again.";
+    if (ex.message === "slot_full") err.textContent = "Oops, that slot just got taken. Pick another one.";
+    else {
+      const t = "Hi " + CONFIG.host + "! 🪔 RSVP for Chhat wali Diwali\nName: " + data.name + "\nComing: " + data.coming + (data.slot ? "\nSlot: " + data.slot + " " + data.dish : "") + (data.song ? "\nSong: " + data.song : "");
+      err.innerHTML = "Couldn't save it. Try again, or <a href=\"https://wa.me/" + CONFIG.wa.join("") + "?text=" + encodeURIComponent(t) + "\" target=\"_blank\" rel=\"noopener\">send it on WhatsApp instead</a>.";
+    }
     if (ex.message === "slot_full") loadState();
   }finally{ btn.disabled = false; btn.textContent = "Lock kar do 🔒"; }
 });
@@ -953,6 +957,8 @@ function showDone(d){
   if (d.coming !== "no"){ rows.push(["Plus-one", d.plus === "0" ? "Solo" : "+" + d.plus + (d.plusNames ? " (" + d.plusNames + ")" : "")]); if (slot) rows.push(["Laa rahe", slot.label + (d.dish ? ": " + d.dish : "")]); if (fit) rows.push(["Fit", fit.name]); if (d.drinks.length) rows.push(["Drinks", d.drinks.join(", ")]); }
   if (d.song) rows.push(["Farmaish", d.song]);
   $("#doneSum").innerHTML = rows.map(([k, v]) => `<div><b>${esc(k)}:</b> ${esc(v)}</div>`).join("");
+  const waText = "Hi " + CONFIG.host + "! 🪔 RSVP for Chhat wali Diwali (" + CONFIG.dateText + ")\n" + rows.map(([k, v]) => k + ": " + v).join("\n");
+  $("#waConfirm").href = "https://wa.me/" + CONFIG.wa.join("") + "?text=" + encodeURIComponent(waText);
   if (d.coming === "yes") burstConfetti(160);
   $("#done").scrollIntoView({behavior: reduced ? "auto" : "smooth", block: "center"});
 }
