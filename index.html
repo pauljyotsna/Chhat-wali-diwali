@@ -414,7 +414,6 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
   </div>
   <div class="wrap">
     <div>
-      <div class="kicker" style="color:var(--haldi)"><span data-cfg="hostFilms"></span> presents · <span data-cfg="area"></span></div>
       <h1><span class="t1 dev">रूफटॉप</span><span class="t2 script glitter">Diwali</span></h1>
       <p class="sub">Diyas, golgappe, card tables and a slightly filmy DJ, all under the open sky. We'd love to have you there.</p>
       <div class="countdown" aria-label="Countdown to the party">
@@ -488,7 +487,6 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
         <div class="drow"><dt>WHEN</dt><dd class="lockable"><span data-cfg="dateText"></span>, <span data-cfg="timeText"></span></dd></div>
         <div class="drow"><dt>WHERE</dt><dd><span data-cfg="venue"></span><br><small style="opacity:.8" data-cfg="address"></small></dd></div>
         <div class="drow"><dt>DRESS</dt><dd data-cfg="dress"></dd></div>
-        <div class="drow"><dt>BRING</dt><dd>One dish (pick a slot in the RSVP) and your best dance moves</dd></div>
         <div class="drow"><dt>HOST</dt><dd data-cfg="host"></dd></div>
       </dl>
       <div class="acts">
@@ -581,8 +579,8 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
         <div class="plus-people" id="plusPeople"></div>
       </div>
 
-      <div class="q"><div class="ql" id="lSlot">WHAT YOU BRINGING TO THE TABLE (your potluck addition)</div>
-        <input type="text" id="fDish" aria-labelledby="lSlot" placeholder="Write it here, e.g. Mom's dahi bhalle">
+      <div class="q"><div class="ql" id="lSlot">WHAT YOU BRINGING TO THE TABLE (your potluck addition food / alcohol)</div>
+        <input type="text" id="fDish" aria-labelledby="lSlot" placeholder="e.g. Mom's dahi bhalle, or a bottle of rum">
       </div>
 
       <div class="q"><div class="ql" id="lFit">DRESS CODE: PICK YOUR COLOUR (optional)</div>
@@ -603,7 +601,7 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
       <div class="sum" id="doneSum"></div>
       <p style="margin:6px 0 0;max-width:42ch">Last step: confirm with <span data-cfg="host"></span> on WhatsApp. That's where you'll get the exact address and party updates.</p>
       <a class="btn wa" id="waConfirm" href="#" target="_blank" rel="noopener">Confirm on WhatsApp ✓</a>
-      <button class="btn alt" id="editBtn" type="button">Edit my RSVP</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn alt" id="editBtn" type="button">Edit my RSVP</button><button class="btn alt" id="newBtn" type="button">RSVP for someone else</button></div>
     </div>
   </div>
 </section>
@@ -934,11 +932,12 @@ function demoState(){
   return st;
 }
 function renderShared(){
-  renderFits(); renderSongs(); renderGallery(); restoreMyRsvp();
+  renderFits(); renderSongs(); renderGallery();
 }
 
 /* ---------- fit check ---------- */
-let myFit = store.get("myFit", "");
+let myFit = "", lastRsvp = null;
+["myRsvp","myFit","creditName","songBy"].forEach(k => { try{ localStorage.removeItem(k); }catch(e){} });
 function initials(n){ return String(n || "?").trim().split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase(); }
 function renderFits(){
   $("#fits").innerHTML = FITS.map(f => { const n = (STATE.fit || {})[f.id] || 0;
@@ -948,7 +947,7 @@ function renderFits(){
   $$(".fit").forEach(b => b.addEventListener("click", e => pickFit(b.dataset.fit, e)));
 }
 function pickFit(id, e){
-  myFit = (myFit === id) ? "" : id; store.set("myFit", myFit);
+  myFit = (myFit === id) ? "" : id;
   $$(".fit").forEach(b => b.setAttribute("aria-pressed", b.dataset.fit === myFit));
   if (myFit && e) sparkleAt(e.clientX, e.clientY, 14);
 }
@@ -965,11 +964,11 @@ form.addEventListener("change", e => { if (e.target.name === "plus") renderPlusP
 function readPlus(){ return $$(".plus-person").map(p => ({ name: p.querySelector(".pName").value.trim(), phone: p.querySelector(".pPhone").value.trim() })); }
 function val(name){ const el = form.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ""; }
 function restoreMyRsvp(){
-  const r = store.get("myRsvp", null); if (!r || form.dataset.restored) return; form.dataset.restored = "1";
+  const r = lastRsvp; if (!r) return;
   $("#fName").value = r.name || ""; $("#fPhone").value = r.phone || ""; $("#fDish").value = r.dish || ""; $("#fWish").value = r.wish || "";
   [["plus", r.plus]].forEach(([n, v]) => { const el = form.querySelector(`input[name="${n}"][value="${v}"]`); if (el) el.checked = true; });
   renderPlusPeople(Math.min(1, +r.plus || 0), r.plusPeople || []);
-  if (!$("#sBy").value) $("#sBy").value = r.name || "";
+  myFit = r.fit || ""; $$(".fit").forEach(b => b.setAttribute("aria-pressed", b.dataset.fit === myFit));
 }
 function saveDemoRsvp(d){ const all = store.get("demoRsvps", []).filter(r => r.name.toLowerCase() !== d.name.toLowerCase()); all.push(d); store.set("demoRsvps", all); }
 form.addEventListener("submit", async e => {
@@ -985,7 +984,7 @@ form.addEventListener("submit", async e => {
   const btn = $("#submitBtn"); btn.disabled = true; btn.textContent = "Sending…";
   try{
     if (DEMO) saveDemoRsvp(data); else await post(data);
-    store.set("myRsvp", data); showDone(data); loadState();
+    lastRsvp = data; showDone(data); clearForm(); loadState();
   }catch(ex){
     if (ex.message === "slot_full"){ err.textContent = "That slot was just taken. Please pick another one."; loadState(); }
     else err.innerHTML = 'Couldn\'t save it. Please try again, or <a href="' + waLink("Hi " + CONFIG.host + "! 🪔 Count me in for Rooftop Diwali\nName: " + data.name + "\nPlus-ones: " + data.plus + (data.plusNames ? " – " + data.plusNames : "") + "\nBringing: " + data.dish) + '" target="_blank" rel="noopener">send it on WhatsApp instead</a>.';
@@ -1001,7 +1000,11 @@ function showDone(d){
   $("#waConfirm").href = waLink("Hi " + CONFIG.host + "! 🪔 Count me in for Rooftop Diwali (" + CONFIG.dateText + ")\n" + rows.map(([k, v]) => k + ": " + v).join("\n"));
   burstConfetti(160); $("#done").scrollIntoView({behavior: reduced ? "auto" : "smooth", block: "center"});
 }
-$("#editBtn").addEventListener("click", () => { $("#done").hidden = true; form.hidden = false; delete form.dataset.restored; restoreMyRsvp(); form.scrollIntoView({behavior:"smooth"}); });
+function clearForm(){
+  form.reset(); renderPlusPeople(0); myFit = ""; $$(".fit").forEach(b => b.setAttribute("aria-pressed", "false"));
+}
+$("#editBtn").addEventListener("click", () => { $("#done").hidden = true; form.hidden = false; restoreMyRsvp(); form.scrollIntoView({behavior:"smooth"}); });
+$("#newBtn").addEventListener("click", () => { lastRsvp = null; clearForm(); $("#done").hidden = true; form.hidden = false; form.scrollIntoView({behavior:"smooth"}); $("#fName").focus({preventScroll:true}); });
 
 /* ---------- playlist ---------- */
 const SONG_POOL = ["Oh Ho Ho Ho","Kajra Re","London Thumakda","Badtameez Dil","Gallan Goodiyaan","Desi Girl","Tareefan","Nachde Ne Saare","Kar Gayi Chull",
@@ -1012,7 +1015,7 @@ const SONG_POOL = ["Oh Ho Ho Ho","Kajra Re","London Thumakda","Badtameez Dil","G
 function shuffle(a){ return a.map(x => [Math.random(), x]).sort((m, n) => m[0] - n[0]).map(x => x[1]); }
 function renderIdeas(){
   $("#ideas").innerHTML = '<span style="font-size:.85rem;color:#b9a6c6;align-self:center">Need ideas?</span>' + shuffle(SONG_POOL).slice(0, 6).map(t => `<button type="button">${esc(t)}</button>`).join("") + '<button type="button" id="moreIdeas" aria-label="Show different ideas">↻</button>';
-  $$("#ideas button").forEach(b => b.addEventListener("click", () => { if (b.id === "moreIdeas") return renderIdeas(); $("#sSearch").value = b.textContent; searchSongs(b.textContent); $("#sSearch").focus(); }));
+  $$("#ideas button").forEach(b => b.addEventListener("click", () => { if (b.id === "moreIdeas") return renderIdeas(); pickIdea(b.textContent); }));
 }
 renderIdeas();
 
@@ -1043,6 +1046,17 @@ async function searchSongs(q){
     box.innerHTML = results.map((r, i) => `<li role="option" id="opt${i}" data-i="${i}" aria-selected="false"><img src="${esc(art(r.artworkUrl100))}" alt=""><span><b>${esc(r.trackName)}</b><small>${esc(r.artistName)}${r.collectionName ? " · " + esc(r.collectionName) : ""}</small></span></li>`).join("");
     $$("#sResults li[role=option]").forEach(li => li.addEventListener("mousedown", e => { e.preventDefault(); choose(+li.dataset.i); }));
   }catch(e){ if (seq === searchSeq) box.innerHTML = '<li class="msg">Search isn\'t responding. Try again in a moment.</li>'; }
+}
+async function pickIdea(title){
+  const seq = ++searchSeq; $("#songErr").textContent = ""; $("#sResults").hidden = true; $("#sSearch").value = "";
+  $("#picked").hidden = false; $("#picked").innerHTML = `<span></span><span><b>Finding "${esc(title)}"…</b></span><span></span>`;
+  try{
+    const d = await itunes("search?term=" + encodeURIComponent(title) + "&entity=song&country=in&limit=5");
+    if (seq !== searchSeq) return;
+    results = (d.results || []).filter(r => r.previewUrl);
+    if (!results.length) throw new Error("none");
+    choose(0); $("#sBy").focus();
+  }catch(e){ if (seq === searchSeq){ $("#picked").hidden = true; $("#sSearch").value = title; searchSongs(title); $("#sSearch").focus(); } }
 }
 function choose(i){
   const r = results[i]; if (!r) return;
@@ -1116,7 +1130,6 @@ $("#songForm").addEventListener("submit", async e => {
   e.preventDefault(); const err = $("#songErr"); err.textContent = "";
   if (!picked){ err.textContent = $("#sSearch").value.trim() ? "Pick the right version from the list first." : "Search for a song first."; $("#sSearch").focus(); return; }
   const by = $("#sBy").value.trim(); if (!by){ err.textContent = "Add your name so we know who picked it."; $("#sBy").focus(); return; }
-  store.set("songBy", by);
   const item = Object.assign({}, picked, {by}), btn = $("#songBtn"); btn.disabled = true;
   try{
     if (DEMO){ const s = store.get("demoSongs", []); s.push(item); store.set("demoSongs", s); }
@@ -1126,7 +1139,6 @@ $("#songForm").addEventListener("submit", async e => {
   }catch(ex){ err.textContent = "Couldn't add it. Try again in a bit."; }
   finally{ btn.disabled = false; }
 });
-if (store.get("songBy", "")) $("#sBy").value = store.get("songBy", "");
 
 /* ---------- hype wall ---------- */
 $("#capOpts").innerHTML = CAPTIONS.map((c, i) => `<label class="opt"><input type="radio" name="cap" value="${esc(c)}" ${i === 0 ? "checked" : ""}><span>${esc(c)}</span></label>`).join("");
@@ -1139,7 +1151,7 @@ function renderGallery(){
   }
   $("#polas").innerHTML = items.slice().reverse().map((g, i) => `<figure class="pola" style="--r:${rot(i)}"><span class="tape"></span><div class="ph"><img loading="lazy" src="${esc(photoUrl(g))}" alt="Photo posted by ${esc(g.by)}"></div><p>${esc(g.caption)}</p><small>by ${esc(g.by)}</small></figure>`).join("");
 }
-$("#uploadToggle").addEventListener("click", () => { $("#uploadCard").hidden = !$("#uploadCard").hidden; const m = store.get("myRsvp", null); if (m && !$("#uName").value) $("#uName").value = m.name; });
+$("#uploadToggle").addEventListener("click", () => { $("#uploadCard").hidden = !$("#uploadCard").hidden;  });
 let upData = null;
 $("#uFile").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; try{ upData = await shrink(f, 1400, .82); $("#uPrev").src = upData; $("#uPrev").hidden = false; }catch(_){ $("#upErr").textContent = "That file didn't open. Try a JPG or PNG."; } });
 function shrink(file, max, q){
