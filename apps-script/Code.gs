@@ -53,17 +53,21 @@ function readRsvps_() {
   v.shift();
   return v.map((row, i) => ({
     row: i + 2, name: String(row[1]), phone: String(row[2]), coming: String(row[3]), plus: Number(row[4]) || 0,
-    slot: String(row[8]), fit: String(row[10]), song: String(row[11])
+    slot: String(row[8]), dish: String(row[9]), fit: String(row[10]), song: String(row[11])
   }));
 }
 
 function state_() {
   const rs = readRsvps_();
-  const st = { slots: {}, fit: {}, songs: [], gallery: [], counts: { yes: 0, maybe: 0, no: 0, heads: 0 } };
+  const st = { slots: {}, fit: {}, fitNames: {}, guests: [], dishes: [], songs: [], gallery: [], counts: { yes: 0, maybe: 0, no: 0, heads: 0 } };
   rs.forEach(r => {
     st.counts[r.coming] = (st.counts[r.coming] || 0) + 1;
     if (r.coming === "yes") {
+      const first = r.name.trim().split(/\s+/)[0];
       st.counts.heads += 1 + r.plus;
+      st.guests.push(first);
+      if (r.dish) st.dishes.push(r.dish);
+      if (r.fit) (st.fitNames[r.fit] = st.fitNames[r.fit] || []).push(first);
       if (r.slot) st.slots[r.slot] = (st.slots[r.slot] || 0) + 1;
       if (r.fit) st.fit[r.fit] = (st.fit[r.fit] || 0) + 1;
     }
