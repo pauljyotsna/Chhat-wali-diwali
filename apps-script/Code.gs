@@ -11,7 +11,7 @@ const SLOT_CAPS = {
 const RSVP_HEADERS = ["Timestamp", "Name", "Phone", "Coming", "Plus-ones", "Plus-one names", "Food",
   "Drinks", "Potluck slot", "Dish", "Fit colour", "Song request", "Birthday wish", "Golgappa score"];
 const GALLERY_HEADERS = ["Timestamp", "By", "Caption", "Drive file ID", "Link"];
-const SONG_HEADERS = ["Timestamp", "Song", "Requested by"];
+const SONG_HEADERS = ["Timestamp", "Song", "Requested by", "Artist", "Preview URL", "Artwork", "Track ID"];
 const FOLDER_NAME = "Chhat Wali Diwali — Gossip Archive";
 
 function setup() {
@@ -28,7 +28,9 @@ function setup() {
 function sheet_(name, headers) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(name);
-  if (!sh) { sh = ss.insertSheet(name); sh.appendRow(headers); sh.setFrozenRows(1); sh.getRange(1, 1, 1, headers.length).setFontWeight("bold"); }
+  if (!sh) { sh = ss.insertSheet(name); sh.appendRow(headers); sh.setFrozenRows(1); }
+  if (sh.getLastColumn() < headers.length) sh.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sh.getRange(1, 1, 1, headers.length).setFontWeight("bold");
   return sh;
 }
 
@@ -69,7 +71,7 @@ function state_() {
   });
   const sv = sheet_("Songs", SONG_HEADERS).getDataRange().getValues();
   sv.shift();
-  sv.forEach(row => { if (row[1]) st.songs.push({ song: String(row[1]), by: String(row[2]) }); });
+  sv.forEach(row => { if (row[1]) st.songs.push({ song: String(row[1]), by: String(row[2] || ""), artist: String(row[3] || ""), preview: String(row[4] || ""), artwork: String(row[5] || ""), trackId: String(row[6] || "") }); });
   const g = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Gallery").getDataRange().getValues();
   g.shift();
   st.gallery = g.map(row => ({ by: String(row[1]), caption: String(row[2]), id: String(row[3]) }));
@@ -124,7 +126,8 @@ function saveRsvp_(d) {
 function saveSong_(d) {
   const song = clean_(d.song, 100).trim();
   if (!song) return { ok: false, error: "song_required" };
-  sheet_("Songs", SONG_HEADERS).appendRow([new Date(), song, clean_(d.by, 40).trim()]);
+  const url = s => /^https:\/\/[\w.-]+\.(apple|mzstatic)\.com\//.test(String(s || "")) ? String(s).slice(0, 400) : "";
+  sheet_("Songs", SONG_HEADERS).appendRow([new Date(), song, clean_(d.by, 40).trim(), clean_(d.artist, 100), url(d.preview), url(d.artwork), clean_(d.trackId, 20)]);
   return { ok: true };
 }
 

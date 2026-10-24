@@ -223,6 +223,7 @@ form.card{margin-top:24px;display:grid;gap:26px}
 .fit-chip a{color:var(--sindoor)}
 .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
 @media (max-width:640px){.row2{grid-template-columns:1fr}}
+.row2.tight{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px}
 .form-err{color:var(--sindoor);font-weight:700}
 .form-err a{color:var(--sindoor)}
 .submit-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
@@ -245,12 +246,38 @@ form.card{margin-top:24px;display:grid;gap:26px}
 .ideas{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .ideas button{border:2px dashed #ffffff66;background:transparent;color:var(--cream);border-radius:999px;padding:5px 12px;font-size:.88rem}
 .ideas button:hover{border-color:var(--haldi);color:var(--haldi)}
-.songs{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:s}
-.songs li{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:10px;align-items:center;background:#241330;border:2px solid #ffffff22;border-radius:12px;padding:10px 12px;counter-increment:s}
-.songs li::before{content:counter(s,decimal-leading-zero);font-family:var(--f-pix);font-weight:700;color:var(--haldi)}
-.songs li b{font-weight:600}
-.songs li small{display:block;color:#b9a6c6;font-size:.8rem}
-.songs li.new{animation:pop .5s ease}
+.search-box{position:relative}
+.results{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:20;list-style:none;margin:0;padding:6px;background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--rani);max-height:340px;overflow:auto}
+.results li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:center;padding:6px 8px;border-radius:10px;cursor:pointer}
+.results li[aria-selected="true"],.results li:hover{background:var(--haldi)}
+.results li img,.track img{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#3a2448}
+.results li b{display:block;font-weight:700;line-height:1.2}
+.results li small{color:#5b4a3c;font-size:.8rem}
+.results .msg{display:block;padding:10px;color:#5b4a3c;cursor:default}
+.results .msg:hover{background:none}
+.picked{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;background:#2a1838;border:2px solid var(--haldi);border-radius:12px;padding:8px 10px}
+.picked img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+.picked b{display:block;line-height:1.2}
+.picked small{color:#b9a6c6;font-size:.8rem}
+.picked button{background:none;border:0;color:#b9a6c6;font-size:1.2rem}
+.queue{display:grid;gap:8px}
+.track{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;background:#241330;border:2px solid #ffffff22;border-radius:12px;padding:8px 10px}
+.track b{display:block;font-weight:600;line-height:1.2}
+.track small{display:block;color:#b9a6c6;font-size:.8rem}
+.track.new{animation:pop .5s ease}
+.play{width:40px;height:40px;border-radius:50%;border:2px solid var(--haldi);background:conic-gradient(var(--haldi) var(--p,0%),transparent 0);color:var(--cream);display:grid;place-items:center;padding:0;position:relative}
+.play::before{content:"";position:absolute;inset:3px;border-radius:50%;background:#241330}
+.play span{position:relative;font-size:.9rem;line-height:1}
+.play[aria-pressed="true"] span{color:var(--haldi)}
+.group{background:#1d0f28;border:2px solid #ffffff22;border-radius:14px;overflow:hidden}
+.group > button{width:100%;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;background:none;border:0;color:var(--cream);padding:8px 10px;text-align:left}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-chunk);color:var(--ink);background:var(--haldi)}
+.group > button b{display:block}
+.group > button small{color:#b9a6c6;font-size:.8rem}
+.chev{font-family:var(--f-pix);color:var(--haldi);transition:transform .2s}
+.group[data-open="true"] .chev{transform:rotate(90deg)}
+.group .inner{display:grid;gap:6px;padding:0 8px 8px}
+.group .track{background:#241330}
 @keyframes pop{0%{transform:scale(.9);background:#5a2d6e}100%{transform:scale(1)}}
 .eq{display:inline-flex;gap:2px;align-items:flex-end;height:16px}
 .eq i{width:3px;background:var(--rani);animation:eq 1s ease-in-out infinite}
@@ -493,36 +520,22 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
     <div class="by">PLEASE RSVP BY <span data-cfg="rsvpBy"></span> · to change it later, send it again with the same name and number</div>
 
     <form class="card" id="rsvpForm" novalidate>
-      <div class="row2">
+      <div class="row2 tight">
         <div class="q"><label for="fName">YOUR NAME</label><input type="text" id="fName" autocomplete="name" placeholder="As it's saved in my phone"></div>
-        <div class="q"><label for="fPhone">YOUR NUMBER (for the party WhatsApp group)</label><input type="tel" id="fPhone" autocomplete="tel" inputmode="tel" placeholder="98xxxxxxxx"></div>
+        <div class="q"><label for="fPhone">YOUR NUMBER</label><input type="tel" id="fPhone" autocomplete="tel" inputmode="tel" placeholder="98xxxxxxxx"></div>
       </div>
 
       <div class="q"><div class="ql" id="lPlus">BRINGING A PARTNER IN CRIME?</div>
         <div class="opts plus-opts" role="radiogroup" aria-labelledby="lPlus">
           <label class="opt"><input type="radio" name="plus" value="0" checked><span><b>Flying solo 🕺</b><small>Just me and my dance moves</small></span></label>
           <label class="opt"><input type="radio" name="plus" value="1"><span><b>+1 💃</b><small>My person is coming too</small></span></label>
-          <label class="opt"><input type="radio" name="plus" value="2"><span><b>+2 👯</b><small>Bringing the squad</small></span></label>
         </div>
         <div class="plus-people" id="plusPeople"></div>
       </div>
 
-      <div class="row2">
-        <div class="q"><div class="ql" id="lFood">FOOD PREFERENCE</div>
-          <div class="opts" role="radiogroup" aria-labelledby="lFood">
-            <label class="opt"><input type="radio" name="food" value="veg"><span>Veg</span></label>
-            <label class="opt"><input type="radio" name="food" value="nonveg"><span>Non-veg</span></label>
-            <label class="opt"><input type="radio" name="food" value="jain"><span>Jain</span></label>
-          </div>
-        </div>
-        <div class="q"><div class="ql" id="lDrink">DRINK OF CHOICE (pick all that apply)</div>
-          <div class="opts" role="group" aria-labelledby="lDrink" id="drinkOpts"></div>
-        </div>
-      </div>
-
-      <div class="q"><div class="ql" id="lSlot">YOUR POTLUCK SLOT (taken slots are crossed out)</div>
+      <div class="q"><div class="ql" id="lSlot">WHAT YOU BRINGING TO THE TABLE (your potluck addition)</div>
         <div class="slots" role="radiogroup" aria-labelledby="lSlot" id="slotOpts"></div>
-        <div class="q" style="margin-top:10px"><label for="fDish" style="position:absolute;left:-9999px">Dish name</label><input type="text" id="fDish" placeholder="What are you bringing? e.g. Mom's dahi bhalle"></div>
+        <div class="q" style="margin-top:10px"><label for="fDish" style="position:absolute;left:-9999px">Dish name</label><input type="text" id="fDish" placeholder="Which dish? e.g. Mom's dahi bhalle"></div>
       </div>
 
       <div class="q"><div class="ql">YOUR OUTFIT COLOUR</div><div class="fit-chip" id="fitChip"></div></div>
@@ -551,18 +564,22 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
   <div class="wrap grid">
     <div>
       <h2><span class="dev">प्लेलिस्ट</span><span class="script">Add as many as you like.</span></h2>
-      <p>The DJ plays requests in order, so get yours in early. Add one, add ten.</p>
-      <form class="song-form" id="songForm" novalidate>
-        <label for="sSong" style="position:absolute;left:-9999px">Song</label>
-        <input type="text" id="sSong" placeholder="Song name (and artist, if you remember)" maxlength="100">
+      <p>Search for a song, pick the right version and add it. The DJ plays requests in order, so get yours in early. Tap ▶ on any song in the queue to hear a 30-second preview.</p>
+      <form class="song-form" id="songForm" novalidate autocomplete="off">
+        <div class="search-box">
+          <label for="sSearch" style="position:absolute;left:-9999px">Search for a song</label>
+          <input type="text" id="sSearch" placeholder="Search a song, e.g. oh ho ho ho" role="combobox" aria-expanded="false" aria-controls="sResults" aria-autocomplete="list">
+          <ul class="results" id="sResults" role="listbox" hidden></ul>
+        </div>
+        <div class="picked" id="picked" hidden></div>
         <label for="sBy" style="position:absolute;left:-9999px">Your name</label>
-        <input type="text" id="sBy" placeholder="Your name (so we know who to blame)" maxlength="40">
+        <input type="text" id="sBy" placeholder="Your name (so we know who to thank)" maxlength="40">
         <div><button class="btn pink" type="submit" id="songBtn">Add to the queue +</button> <span class="form-err" id="songErr" role="alert" style="color:#ff8fc2"></span></div>
         <div class="ideas" id="ideas" aria-label="Song ideas"></div>
       </form>
     </div>
     <div>
-      <ol class="songs" id="songs"></ol>
+      <div class="queue" id="songs"></div>
       <p class="empty" id="songsEmpty">The queue is empty. Start the party.</p>
     </div>
   </div>
@@ -632,7 +649,6 @@ const SLOTS = [
   {id:"dessert", label:"Dessert", hint:"gulab jamun, phirni", cap:1},
   {id:"assign", label:"Let the host assign me", hint:"I'll bring whatever's missing", cap:99}
 ];
-const DRINKS = ["Whisky","Vodka","Gin","Rum","Beer","Wine","Mocktails only"];
 const FITS = [
   {id:"laal", name:"Sindoor Red", note:"main character energy", c:"#c8201a"},
   {id:"haldi", name:"Haldi Yellow", note:"wedding-season vibes", c:"#ffc20e"},
@@ -644,7 +660,6 @@ const FITS = [
   {id:"kaala", name:"Black Magic", note:"mysterious", c:"#1b120f"}
 ];
 const CAPTIONS = ["Outfit loading…","Already in the mood","Counting down","Golgappa ready","Dance shoes on","Main character moment"];
-const SONG_IDEAS = ["Kajra Re","London Thumakda","Badtameez Dil","Gallan Goodiyaan","Desi Girl","Tareefan","Nachde Ne Saare","Kar Gayi Chull"];
 
 /* ---------- helpers ---------- */
 const $ = s => document.querySelector(s);
@@ -899,7 +914,6 @@ function renderFitChip(){
 }
 
 /* ---------- RSVP ---------- */
-$("#drinkOpts").innerHTML = DRINKS.map(d => `<label class="opt"><input type="checkbox" name="drink" value="${d}"><span>${d}</span></label>`).join("");
 const form = $("#rsvpForm");
 function renderSlots(){
   const mySlot = (store.get("myRsvp", {}) || {}).slot, cur = val("slot");
@@ -910,8 +924,8 @@ function renderSlots(){
   }).join("");
 }
 function renderPlusPeople(n, saved){
-  const box = $("#plusPeople"), labels = ["PARTNER IN CRIME #1", "PARTNER IN CRIME #2"];
-  box.innerHTML = Array.from({length: n}, (_, i) => `<div class="plus-person"><span class="tag">${labels[i]} · we'll add them to the guest list (and the cake count)</span>
+  const box = $("#plusPeople"), labels = ["YOUR PARTNER IN CRIME"];
+  box.innerHTML = Array.from({length: n}, (_, i) => `<div class="plus-person"><span class="tag">${labels[i]} · they're on the guest list (and the cake count)</span>
     <input type="text" class="pName" aria-label="Plus-one ${i+1} name" placeholder="Their name" value="${esc(saved?.[i]?.name || "")}">
     <input type="tel" class="pPhone" aria-label="Plus-one ${i+1} number" inputmode="tel" placeholder="Their number" value="${esc(saved?.[i]?.phone || "")}"></div>`).join("");
 }
@@ -921,9 +935,8 @@ function val(name){ const el = form.querySelector(`input[name="${name}"]:checked
 function restoreMyRsvp(){
   const r = store.get("myRsvp", null); if (!r || form.dataset.restored) return; form.dataset.restored = "1";
   $("#fName").value = r.name || ""; $("#fPhone").value = r.phone || ""; $("#fDish").value = r.dish || ""; $("#fWish").value = r.wish || "";
-  [["plus", r.plus], ["food", r.food], ["slot", r.slot]].forEach(([n, v]) => { const el = form.querySelector(`input[name="${n}"][value="${v}"]`); if (el) el.checked = true; });
-  renderPlusPeople(+r.plus || 0, r.plusPeople || []);
-  (r.drinks || []).forEach(d => { const el = form.querySelector(`input[name="drink"][value="${d}"]`); if (el) el.checked = true; });
+  [["plus", r.plus], ["slot", r.slot]].forEach(([n, v]) => { const el = form.querySelector(`input[name="${n}"][value="${v}"]`); if (el) el.checked = true; });
+  renderPlusPeople(Math.min(1, +r.plus || 0), r.plusPeople || []);
   if (!$("#sBy").value) $("#sBy").value = r.name || "";
 }
 function saveDemoRsvp(d){ const all = store.get("demoRsvps", []).filter(r => r.name.toLowerCase() !== d.name.toLowerCase()); all.push(d); store.set("demoRsvps", all); }
@@ -932,11 +945,11 @@ form.addEventListener("submit", async e => {
   const plusPeople = readPlus();
   const data = { type: "rsvp", name: $("#fName").value.trim(), phone: $("#fPhone").value.trim(), coming: "yes",
     plus: val("plus") || "0", plusPeople, plusNames: plusPeople.map(p => p.name + (p.phone ? " (" + p.phone + ")" : "")).join("; "),
-    food: val("food"), drinks: $$('input[name="drink"]:checked').map(x => x.value), slot: val("slot"), dish: $("#fDish").value.trim(),
+    food: "", drinks: [], slot: val("slot"), dish: $("#fDish").value.trim(),
     fit: myFit, song: "", wish: $("#fWish").value.trim(), golgappa: gg.best() };
   if (!data.name){ err.textContent = "Please add your name."; $("#fName").focus(); return; }
   if (plusPeople.some(p => !p.name)){ err.textContent = "Please add your plus-one's name."; return; }
-  if (!data.slot){ err.textContent = "Please pick a potluck slot (or 'Let the host assign me')."; return; }
+  if (!data.slot){ err.textContent = "Please pick what you're bringing (or 'Let the host assign me')."; return; }
   const btn = $("#submitBtn"); btn.disabled = true; btn.textContent = "Sending…";
   try{
     if (DEMO) saveDemoRsvp(data); else await post(data);
@@ -949,9 +962,9 @@ form.addEventListener("submit", async e => {
 function showDone(d){
   form.hidden = true; $("#done").hidden = false;
   const slot = SLOTS.find(s => s.id === d.slot), fit = FITS.find(f => f.id === d.fit);
-  const rows = [["Name", d.name], ["Plus-ones", d.plus === "0" ? "Flying solo" : "+" + d.plus + " (" + d.plusNames + ")"]];
+  const rows = [["Name", d.name], ["Plus-one", d.plus === "0" ? "Flying solo" : d.plusNames]];
   if (slot) rows.push(["Bringing", slot.label + (d.dish ? ": " + d.dish : "")]);
-  if (fit) rows.push(["Colour", fit.name]); if (d.food) rows.push(["Food", d.food]); if (d.drinks.length) rows.push(["Drinks", d.drinks.join(", ")]);
+  if (fit) rows.push(["Colour", fit.name]);
   $("#doneSum").innerHTML = rows.map(([k, v]) => `<div><b>${esc(k)}:</b> ${esc(v)}</div>`).join("");
   $("#waConfirm").href = waLink("Hi " + CONFIG.host + "! 🪔 Count me in for Rooftop Diwali (" + CONFIG.dateText + ")\n" + rows.map(([k, v]) => k + ": " + v).join("\n"));
   burstConfetti(160); $("#done").scrollIntoView({behavior: reduced ? "auto" : "smooth", block: "center"});
@@ -959,26 +972,129 @@ function showDone(d){
 $("#editBtn").addEventListener("click", () => { $("#done").hidden = true; form.hidden = false; delete form.dataset.restored; restoreMyRsvp(); form.scrollIntoView({behavior:"smooth"}); });
 
 /* ---------- playlist ---------- */
-$("#ideas").innerHTML = '<span style="font-size:.85rem;color:#b9a6c6;align-self:center">Need ideas?</span>' + SONG_IDEAS.map(s => `<button type="button">${esc(s)}</button>`).join("");
-$$("#ideas button").forEach(b => b.addEventListener("click", () => { $("#sSong").value = b.textContent; $("#sSong").focus(); }));
-function renderSongs(flashLast){
-  const list = STATE.songs || [];
-  $("#songsEmpty").hidden = list.length > 0;
-  $("#songs").innerHTML = list.map((s, i) => `<li${flashLast && i === list.length - 1 ? ' class="new"' : ""}><span><b>${esc(s.song)}</b><small>requested by ${esc(s.by || "a mystery guest")}</small></span>${i === 0 ? '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>' : ""}</li>`).join("");
+const SONG_POOL = ["Oh Ho Ho Ho","Kajra Re","London Thumakda","Badtameez Dil","Gallan Goodiyaan","Desi Girl","Tareefan","Nachde Ne Saare","Kar Gayi Chull",
+  "Proper Patola","Aankh Marey","Tunak Tunak Tun","Balam Pichkari","Dil Dhadakne Do","Sauda Khara Khara","Kala Chashma","Lamberghini","Bom Diggy Diggy",
+  "Morni Banke","Coca Cola Tu","Naah","High Rated Gabru","Ishq Tera Tadpave","Laung Laachi","Mundian To Bach Ke","Swag Se Swagat","Dilbar","Jhoome Jo Pathaan",
+  "Nashe Si Chadh Gayi","Ghungroo","Ude Dil Befikre","Lat Lag Gayee","Tamma Tamma Again","Sweety Tera Drama","Garmi","Chaiyya Chaiyya","Saki Saki","Bole Chudiyan",
+  "Mauja Hi Mauja","Pretty Woman","Abhi Toh Party Shuru Hui Hai","Nagada Sang Dhol","Haule Haule","Gud Naal Ishq Mitha","Kamli","What Jhumka?"];
+function shuffle(a){ return a.map(x => [Math.random(), x]).sort((m, n) => m[0] - n[0]).map(x => x[1]); }
+function renderIdeas(){
+  $("#ideas").innerHTML = '<span style="font-size:.85rem;color:#b9a6c6;align-self:center">Need ideas?</span>' + shuffle(SONG_POOL).slice(0, 6).map(t => `<button type="button">${esc(t)}</button>`).join("") + '<button type="button" id="moreIdeas" aria-label="Show different ideas">↻</button>';
+  $$("#ideas button").forEach(b => b.addEventListener("click", () => { if (b.id === "moreIdeas") return renderIdeas(); $("#sSearch").value = b.textContent; searchSongs(b.textContent); $("#sSearch").focus(); }));
 }
+renderIdeas();
+
+let picked = null, results = [], active = -1, searchTimer = null, searchSeq = 0;
+function itunes(params){
+  return new Promise((ok, bad) => {
+    const cb = "itcb" + Date.now() + Math.floor(Math.random()*1e4), sc = document.createElement("script");
+    const done = () => { delete window[cb]; sc.remove(); };
+    window[cb] = d => { done(); ok(d); };
+    sc.onerror = () => { done(); bad(new Error("search_failed")); };
+    sc.src = "https://itunes.apple.com/" + params + "&callback=" + cb;
+    document.body.appendChild(sc);
+    setTimeout(() => { if (window[cb]) { done(); bad(new Error("timeout")); } }, 9000);
+  });
+}
+const art = u => (u || "").replace("100x100bb", "160x160bb");
+async function searchSongs(q){
+  q = q.trim(); const box = $("#sResults"), seq = ++searchSeq;
+  if (q.length < 2){ box.hidden = true; $("#sSearch").setAttribute("aria-expanded", "false"); return; }
+  box.hidden = false; $("#sSearch").setAttribute("aria-expanded", "true"); box.innerHTML = '<li class="msg">Searching…</li>';
+  try{
+    const d = await itunes("search?term=" + encodeURIComponent(q) + "&entity=song&country=in&limit=8");
+    if (seq !== searchSeq) return;
+    const seen = new Set();
+    results = (d.results || []).filter(r => { const k = (r.trackName + "|" + r.artistName).toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; });
+    active = -1;
+    if (!results.length){ box.innerHTML = '<li class="msg">No match. Try the film name or the singer.</li>'; return; }
+    box.innerHTML = results.map((r, i) => `<li role="option" id="opt${i}" data-i="${i}" aria-selected="false"><img src="${esc(art(r.artworkUrl100))}" alt=""><span><b>${esc(r.trackName)}</b><small>${esc(r.artistName)}${r.collectionName ? " · " + esc(r.collectionName) : ""}</small></span></li>`).join("");
+    $$("#sResults li[role=option]").forEach(li => li.addEventListener("mousedown", e => { e.preventDefault(); choose(+li.dataset.i); }));
+  }catch(e){ if (seq === searchSeq) box.innerHTML = '<li class="msg">Search isn\'t responding. Try again in a moment.</li>'; }
+}
+function choose(i){
+  const r = results[i]; if (!r) return;
+  picked = { song: r.trackName, artist: r.artistName, preview: r.previewUrl || "", artwork: art(r.artworkUrl100), trackId: String(r.trackId || "") };
+  $("#sResults").hidden = true; $("#sSearch").setAttribute("aria-expanded", "false"); $("#sSearch").value = "";
+  $("#picked").hidden = false;
+  $("#picked").innerHTML = `<img src="${esc(picked.artwork)}" alt=""><span><b>${esc(picked.song)}</b><small>${esc(picked.artist)}</small></span><button type="button" aria-label="Remove selection">✕</button>`;
+  $("#picked button").addEventListener("click", () => { picked = null; $("#picked").hidden = true; $("#sSearch").focus(); });
+  $("#songErr").textContent = "";
+}
+$("#sSearch").addEventListener("input", e => { clearTimeout(searchTimer); const v = e.target.value; searchTimer = setTimeout(() => searchSongs(v), 350); });
+$("#sSearch").addEventListener("keydown", e => {
+  const opts = $$("#sResults li[role=option]"); if ($("#sResults").hidden || !opts.length) return;
+  if (e.key === "ArrowDown" || e.key === "ArrowUp"){ e.preventDefault(); active = (active + (e.key === "ArrowDown" ? 1 : -1) + opts.length) % opts.length;
+    opts.forEach((o, i) => o.setAttribute("aria-selected", i === active)); $("#sSearch").setAttribute("aria-activedescendant", "opt" + active); opts[active].scrollIntoView({block:"nearest"}); }
+  if (e.key === "Enter" && active >= 0){ e.preventDefault(); choose(active); }
+  if (e.key === "Escape"){ $("#sResults").hidden = true; }
+});
+$("#sSearch").addEventListener("blur", () => setTimeout(() => { $("#sResults").hidden = true; $("#sSearch").setAttribute("aria-expanded", "false"); }, 150));
+
+/* queue: grouped by requester, collapsible, with previews */
+const openGroups = new Set();
+const keyOf = by => (by || "a mystery guest").trim().toLowerCase();
+function trackHtml(s, idx, showBy, isNew){
+  return `<div class="track${isNew ? " new" : ""}"><img src="${esc(s.artwork || "")}" alt="" onerror="this.style.visibility='hidden'"><span><b>${esc(s.song)}</b><small>${esc(s.artist || "")}${showBy ? (s.artist ? " · " : "") + "added by " + esc(s.by || "a mystery guest") : ""}</small></span><button type="button" class="play" data-idx="${idx}" aria-pressed="false" aria-label="Play preview of ${esc(s.song)}"><span>▶</span></button></div>`;
+}
+function renderSongs(flashIdx){
+  const list = STATE.songs || [], groups = [], byKey = {};
+  list.forEach((s, i) => { const k = keyOf(s.by); if (!byKey[k]){ byKey[k] = {name: (s.by || "A mystery guest").trim(), items: []}; groups.push(byKey[k]); } byKey[k].items.push(i); });
+  $("#songsEmpty").hidden = list.length > 0;
+  $("#songs").innerHTML = groups.map(g => {
+    if (g.items.length === 1) return trackHtml(list[g.items[0]], g.items[0], true, flashIdx === g.items[0]);
+    const k = keyOf(g.name), open = openGroups.has(k) || g.items.includes(flashIdx);
+    return `<div class="group" data-k="${esc(k)}" data-open="${open}"><button type="button" aria-expanded="${open}"><span class="avatar">${esc(g.name.charAt(0).toUpperCase())}</span><span><b>${esc(g.name)}'s picks</b><small>${g.items.length} songs · ${open ? "tap to collapse" : "tap to see them"}</small></span><span class="chev">▶</span></button>
+      <div class="inner"${open ? "" : " hidden"}>${g.items.map(i => trackHtml(list[i], i, false, flashIdx === i)).join("")}</div></div>`;
+  }).join("");
+  $$("#songs .group > button").forEach(b => b.addEventListener("click", () => {
+    const g = b.parentElement, k = g.dataset.k, open = g.dataset.open !== "true";
+    g.dataset.open = open; b.setAttribute("aria-expanded", open); g.querySelector(".inner").hidden = !open;
+    b.querySelector("small").textContent = g.querySelectorAll(".track").length + " songs · " + (open ? "tap to collapse" : "tap to see them");
+    open ? openGroups.add(k) : openGroups.delete(k);
+  }));
+  $$("#songs .play").forEach(b => b.addEventListener("click", () => togglePlay(+b.dataset.idx, b)));
+  if (player.idx != null){ const b = document.querySelector(`#songs .play[data-idx="${player.idx}"]`); if (b){ b.setAttribute("aria-pressed", "true"); b.querySelector("span").textContent = "❚❚"; } }
+}
+const player = { audio: new Audio(), idx: null };
+player.audio.preload = "none";
+player.audio.addEventListener("timeupdate", () => { const b = document.querySelector(`#songs .play[data-idx="${player.idx}"]`); if (b && player.audio.duration) b.style.setProperty("--p", (player.audio.currentTime / player.audio.duration * 100) + "%"); });
+player.audio.addEventListener("ended", stopPlay);
+function stopPlay(){
+  player.audio.pause();
+  $$("#songs .play").forEach(b => { b.setAttribute("aria-pressed", "false"); b.querySelector("span").textContent = "▶"; b.style.setProperty("--p", "0%"); });
+  player.idx = null;
+}
+async function togglePlay(idx, btn){
+  if (player.idx === idx){ stopPlay(); return; }
+  stopPlay(); const s = STATE.songs[idx]; if (!s) return;
+  player.idx = idx; btn.setAttribute("aria-pressed", "true"); btn.querySelector("span").textContent = "…";
+  try{
+    if (!s.preview){
+      const d = await itunes("search?term=" + encodeURIComponent(s.song + " " + (s.artist || "")) + "&entity=song&country=in&limit=1");
+      const r = (d.results || [])[0]; if (!r || !r.previewUrl) throw new Error("no_preview");
+      s.preview = r.previewUrl; if (!s.artwork) s.artwork = art(r.artworkUrl100); if (!s.artist) s.artist = r.artistName;
+    }
+    if (player.idx !== idx) return;
+    player.audio.src = s.preview; await player.audio.play(); btn.querySelector("span").textContent = "❚❚";
+  }catch(e){ if (player.idx === idx){ stopPlay(); btn.querySelector("span").textContent = "✕"; btn.title = "No preview available"; setTimeout(() => btn.querySelector("span").textContent = "▶", 1500); } }
+}
+
 $("#songForm").addEventListener("submit", async e => {
   e.preventDefault(); const err = $("#songErr"); err.textContent = "";
-  const song = $("#sSong").value.trim(), by = $("#sBy").value.trim();
-  if (!song){ err.textContent = "Type a song first."; $("#sSong").focus(); return; }
-  const btn = $("#songBtn"); btn.disabled = true;
+  if (!picked){ err.textContent = $("#sSearch").value.trim() ? "Pick the right version from the list first." : "Search for a song first."; $("#sSearch").focus(); return; }
+  const by = $("#sBy").value.trim(); if (!by){ err.textContent = "Add your name so we know who picked it."; $("#sBy").focus(); return; }
+  store.set("songBy", by);
+  const item = Object.assign({}, picked, {by}), btn = $("#songBtn"); btn.disabled = true;
   try{
-    if (DEMO){ const s = store.get("demoSongs", []); s.push({song, by}); store.set("demoSongs", s); }
-    else await post({type: "song", song, by});
-    STATE.songs = (STATE.songs || []).concat([{song, by}]); renderSongs(true);
-    $("#sSong").value = ""; $("#sSong").focus(); burstConfetti(25);
+    if (DEMO){ const s = store.get("demoSongs", []); s.push(item); store.set("demoSongs", s); }
+    else await post(Object.assign({type: "song"}, item));
+    STATE.songs = (STATE.songs || []).concat([item]); renderSongs(STATE.songs.length - 1);
+    picked = null; $("#picked").hidden = true; renderIdeas(); $("#sSearch").focus(); burstConfetti(25);
   }catch(ex){ err.textContent = "Couldn't add it. Try again in a bit."; }
   finally{ btn.disabled = false; }
 });
+if (store.get("songBy", "")) $("#sBy").value = store.get("songBy", "");
 
 /* ---------- hype wall ---------- */
 $("#capOpts").innerHTML = CAPTIONS.map((c, i) => `<label class="opt"><input type="radio" name="cap" value="${esc(c)}" ${i === 0 ? "checked" : ""}><span>${esc(c)}</span></label>`).join("");
