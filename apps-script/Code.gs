@@ -11,6 +11,7 @@ const SLOT_CAPS = {
 const RSVP_HEADERS = ["Timestamp", "Name", "Phone", "Coming", "Plus-ones", "Plus-one names", "Food",
   "Drinks", "Potluck slot", "Dish", "Fit colour", "Song request", "Birthday wish", "Golgappa score"];
 const GALLERY_HEADERS = ["Timestamp", "By", "Caption", "Drive file ID", "Link"];
+const SONG_HEADERS = ["Timestamp", "Song", "Requested by"];
 const FOLDER_NAME = "Chhat Wali Diwali — Gossip Archive";
 
 function setup() {
@@ -19,8 +20,16 @@ function setup() {
   if (r.getLastRow() === 0) { r.appendRow(RSVP_HEADERS); r.setFrozenRows(1); r.getRange(1, 1, 1, RSVP_HEADERS.length).setFontWeight("bold"); }
   let g = ss.getSheetByName("Gallery") || ss.insertSheet("Gallery");
   if (g.getLastRow() === 0) { g.appendRow(GALLERY_HEADERS); g.setFrozenRows(1); g.getRange(1, 1, 1, GALLERY_HEADERS.length).setFontWeight("bold"); }
+  sheet_("Songs", SONG_HEADERS);
   getFolder_();
   const s1 = ss.getSheetByName("Sheet1"); if (s1 && s1.getLastRow() === 0 && ss.getSheets().length > 2) ss.deleteSheet(s1);
+}
+
+function sheet_(name, headers) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(name);
+  if (!sh) { sh = ss.insertSheet(name); sh.appendRow(headers); sh.setFrozenRows(1); sh.getRange(1, 1, 1, headers.length).setFontWeight("bold"); }
+  return sh;
 }
 
 function getFolder_() {
@@ -58,6 +67,9 @@ function state_() {
     }
     if (r.song) st.songs.push({ song: r.song, by: r.name.split(" ")[0] });
   });
+  const sv = sheet_("Songs", SONG_HEADERS).getDataRange().getValues();
+  sv.shift();
+  sv.forEach(row => { if (row[1]) st.songs.push({ song: String(row[1]), by: String(row[2]) }); });
   const g = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Gallery").getDataRange().getValues();
   g.shift();
   st.gallery = g.map(row => ({ by: String(row[1]), caption: String(row[2]), id: String(row[3]) }));
@@ -75,6 +87,7 @@ function doPost(e) {
     const d = JSON.parse(e.postData.contents);
     if (d.type === "rsvp") return json_(saveRsvp_(d));
     if (d.type === "photo") return json_(savePhoto_(d));
+    if (d.type === "song") return json_(saveSong_(d));
     return json_({ ok: false, error: "unknown_type" });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -99,12 +112,19 @@ function saveRsvp_(d) {
     const used = rs.filter(r => r !== mine && r.coming === "yes" && r.slot === slot).length;
     if (used >= SLOT_CAPS[slot]) return { ok: false, error: "slot_full" };
   }
-  const row = [new Date(), name, phone, coming, Math.min(5, Number(d.plus) || 0), clean_(d.plusNames, 120), clean_(d.food, 20),
+  const row = [new Date(), name, phone, coming, Math.min(5, Number(d.plus) || 0), clean_(d.plusNames, 200), clean_(d.food, 20),
     (d.drinks || []).map(x => clean_(x, 20)).join(", "), slot, clean_(d.dish, 120), clean_(d.fit, 20),
     clean_(d.song, 120), clean_(d.wish, 600), Number(d.golgappa) || 0];
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("RSVPs");
   if (mine) sh.getRange(mine.row, 1, 1, row.length).setValues([row]);
   else sh.appendRow(row);
+  return { ok: true };
+}
+
+function saveSong_(d) {
+  const song = clean_(d.song, 100).trim();
+  if (!song) return { ok: false, error: "song_required" };
+  sheet_("Songs", SONG_HEADERS).appendRow([new Date(), song, clean_(d.by, 40).trim()]);
   return { ok: true };
 }
 
