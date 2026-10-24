@@ -94,10 +94,11 @@ h2{margin:0;text-wrap:balance}
 @media (max-width:760px){.hero .wrap{grid-template-columns:1fr}.diya-wrap{max-width:250px;grid-row:1;margin-top:26px}.sticker{display:none}}
 
 /* ---------- TICKER ---------- */
-.ticker{background:var(--haldi);border-block:3px solid var(--ink);overflow:hidden;white-space:nowrap;padding:10px 0}
+.ticker{background:var(--ink);border-block:3px solid var(--haldi);overflow:hidden;white-space:nowrap;padding:10px 0}
 .ticker .track{display:inline-block;animation:marq 28s linear infinite;font-family:var(--f-chunk);font-size:1.15rem}
-.ticker .track span{margin:0 18px}
-.ticker .track em{font-family:var(--f-script);font-weight:900;color:var(--sindoor)}
+.ticker .track span{margin:0 18px;color:var(--haldi)}
+.ticker .track span:nth-child(4n+1){color:#ff4a3d}
+.ticker .track em{font-family:var(--f-script);font-weight:900;color:#ff4a3d}
 @keyframes marq{to{transform:translateX(-50%)}}
 
 /* ---------- INVITE / SCRATCH ---------- */
@@ -201,7 +202,18 @@ h2{margin:0;text-wrap:balance}
 .mine{position:absolute;right:8px;top:8px;background:var(--ink);color:var(--haldi);font-family:var(--f-pix);font-size:.66rem;padding:3px 7px;border-radius:999px;opacity:0;transform:scale(.6);transition:all .25s cubic-bezier(.3,1.6,.5,1);z-index:2}
 .fit[aria-pressed="true"]{transform:rotate(-2deg) scale(1.05);box-shadow:0 0 0 3px var(--ink),0 0 28px 6px #ffd76a,6px 6px 0 3px var(--ink)}
 .fit[aria-pressed="true"] .mine{opacity:1;transform:scale(1)}
-.fit-note{margin-top:18px;font-family:var(--f-pix);font-size:.8rem;color:var(--haldi);min-height:1.2em}
+.fit em.cnt{font-style:normal;font-family:var(--f-pix);font-size:.68rem;margin-top:6px;color:var(--ink)}
+.taken{position:absolute;left:8px;top:8px;background:var(--cream);color:var(--ink);font-family:var(--f-chunk);font-size:.8rem;padding:2px 8px;border-radius:999px;border:2px solid var(--ink);z-index:2}
+.rsvp .fits{margin-top:4px;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.rsvp .fits{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rsvp .swatch{height:54px}
+.rsvp .swatch::after{height:10px}
+.rsvp .fbody{padding:8px 10px 10px}
+.rsvp .fit b{font-size:.85rem}
+.rsvp .fit small{font-size:.75rem}
+.rsvp .fit em.cnt{font-size:.62rem}
+.rsvp .mine{font-size:.58rem;padding:2px 6px;right:6px;top:6px}
+.rsvp .taken{font-size:.7rem;left:6px;top:6px}
 .starring{margin:22px auto 0;max-width:560px;border-radius:18px;border:4px solid #e8b931;box-shadow:0 0 0 4px var(--ink),10px 10px 0 4px var(--ink),0 0 50px #ffd76a66;overflow:hidden;color:var(--cream);text-align:center;
   background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.25),transparent 60%),linear-gradient(160deg,var(--c),var(--c2) 60%,var(--c))}
 .poster-in{padding:18px 18px 16px;display:grid;gap:4px;justify-items:center;text-shadow:0 2px 0 rgba(0,0,0,.35)}
@@ -251,7 +263,8 @@ form.card{margin-top:24px;display:grid;gap:26px}
 .opt input:checked + span{background:var(--ink);color:var(--haldi);transform:rotate(-2deg)}
 .opt input:focus-visible + span{outline:3px solid var(--rani);outline-offset:2px}
 .opt input:disabled + span{opacity:.4;text-decoration:line-through;cursor:not-allowed}
-.plus-opts .opt span{display:grid;gap:2px;border-radius:16px;padding:12px 16px;min-width:170px}
+.plus-opts{flex-wrap:nowrap}.plus-opts .opt{flex:1;min-width:0}
+.plus-opts .opt span{display:grid;gap:2px;border-radius:16px;padding:12px 14px;width:100%;height:100%}
 .plus-opts .opt span b{font-family:var(--f-chunk);font-weight:400;font-size:1.05rem}
 .plus-opts .opt span small{font-weight:500;font-size:.82rem}
 .plus-people{display:grid;gap:12px;margin-top:14px}
@@ -398,7 +411,6 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
   <div class="bulbs hero-bulbs bot" aria-hidden="true"></div>
   <div class="hero-top wrap">
     <span class="logo-chip"><i>✦</i><span data-cfg="hostChip"></span></span>
-    <span class="heads" id="heads" hidden></span>
   </div>
   <div class="wrap">
     <div>
@@ -411,7 +423,6 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
         <div class="cd"><b id="cdM">--</b><span>MINS</span></div>
         <div class="cd"><b id="cdS">--</b><span>SECS</span></div>
       </div>
-      <div class="whos-in" id="whosIn" hidden><div class="faces" id="faces"></div><span class="txt" id="whosTxt"></span></div>
       <div class="hero-cta">
         <a class="btn" href="#invite">Scratch to reveal ↓</a>
         <a class="btn alt" href="#rsvp">Straight to RSVP</a>
@@ -550,17 +561,6 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
   </div>
 </section>
 
-<!-- ===== FIT CHECK ===== -->
-<section class="fitcheck" id="fit">
-  <div class="wrap">
-    <h2><span class="dev glitter">फिट चेक</span><span class="script">festive edition</span></h2>
-    <p class="lead">Pick the colour you're wearing and get your own film poster. Everyone can pick any colour; each tile shows who's already rocking it.</p>
-    <div class="fits" id="fits" role="group" aria-label="Outfit colours"></div>
-    <div class="fit-note" id="fitNote" aria-live="polite"></div>
-    <div class="starring" id="starring" hidden></div>
-  </div>
-</section>
-
 <!-- ===== RSVP ===== -->
 <section class="rsvp" id="rsvp">
   <div class="wrap">
@@ -583,10 +583,11 @@ footer .dev{font-size:2.2rem;color:var(--haldi)}
 
       <div class="q"><div class="ql" id="lSlot">WHAT YOU BRINGING TO THE TABLE (your potluck addition)</div>
         <input type="text" id="fDish" aria-labelledby="lSlot" placeholder="Write it here, e.g. Mom's dahi bhalle">
-        <p class="menu-so-far" id="menuSoFar" hidden></p>
       </div>
 
-      <div class="q"><div class="ql">YOUR OUTFIT COLOUR</div><div class="fit-chip" id="fitChip"></div></div>
+      <div class="q"><div class="ql" id="lFit">DRESS CODE: PICK YOUR COLOUR (optional)</div>
+        <div class="fits" id="fits" role="group" aria-labelledby="lFit"></div>
+      </div>
 
       <div class="q"><label for="fWish">A BIRTHDAY NOTE FOR THE HOST 🎂 (optional)</label><textarea id="fWish" placeholder="Something sweet, or a gentle roast. Your call."></textarea></div>
 
@@ -681,7 +682,7 @@ const CONFIG = {
   venue: "Jyotsna's terrace, Sector 48, Gurgaon",
   address: "Exact address comes on WhatsApp once you confirm",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sector+48+Gurugram+Haryana",
-  dress: "Festive and colourful. Pick your colour in Fit check.",
+  dress: "Festive and colourful. Pick your colour when you RSVP.",
   rsvpBy: "29 OCT",
   wa: ["91","83681","86624"],          // host WhatsApp, kept in parts so it isn't shown on the page
   sheetUrl: "https://script.google.com/macros/s/AKfycbworjqsaJnPlTqsyzoHBugp7OT6lXz7pchCImrpgD1Bf4_gUOyX-4pzDvtvWngriXHppA/exec"
@@ -933,66 +934,27 @@ function demoState(){
   return st;
 }
 function renderShared(){
-  if (STATE.counts.heads > 0){ $("#heads").hidden = false; $("#heads").textContent = STATE.counts.heads + (STATE.counts.heads === 1 ? " person is" : " people are") + " coming"; }
-  renderMenu(); renderFits(); renderWhosIn(); renderSongs(); renderGallery(); restoreMyRsvp();
+  renderFits(); renderSongs(); renderGallery(); restoreMyRsvp();
 }
 
 /* ---------- fit check ---------- */
 let myFit = store.get("myFit", "");
 function initials(n){ return String(n || "?").trim().split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase(); }
 function renderFits(){
-  const names = STATE.fitNames || {};
-  $("#fits").innerHTML = FITS.map(f => { const n = STATE.fit[f.id] || 0, who = names[f.id] || [];
-    const faces = who.slice(0, 4).map(w => `<i title="${esc(w)}">${esc(initials(w))}</i>`).join("");
-    const label = n ? `✦ ${n} already rocking this` : "";
+  $("#fits").innerHTML = FITS.map(f => { const n = (STATE.fit || {})[f.id] || 0;
     return `<button type="button" class="fit" data-fit="${f.id}" aria-pressed="${myFit === f.id}" style="--c:${f.c};--c2:${f.c2}">
-      <span class="swatch"><span class="mine">✓ YOUR PICK</span></span>
-      <span class="fbody"><b>${esc(f.name)}</b><small>${esc(f.note)}</small>${n ? `<span class="who">${faces}<em>${label}</em></span>` : ""}</span></button>`; }).join("");
-  $$(".fit").forEach(b => b.addEventListener("click", e => { pickFit(b.dataset.fit); sparkleAt(e.clientX, e.clientY, 14); }));
-  renderFitChip(); renderStarring();
+      <span class="swatch"><span class="mine">✓ YOUR PICK</span>${n ? `<span class="taken">+${n}</span>` : ""}</span>
+      <span class="fbody"><b>${esc(f.name)}</b><small>${esc(f.note)}</small>${n ? `<em class="cnt">+${n} already wearing this</em>` : ""}</span></button>`; }).join("");
+  $$(".fit").forEach(b => b.addEventListener("click", e => pickFit(b.dataset.fit, e)));
 }
-function creditName(){ const m = store.get("myRsvp", null); return (m && m.name) || store.get("creditName", "") || ""; }
-function renderStarring(){
-  const f = FITS.find(x => x.id === myFit), box = $("#starring");
-  if (!f){ box.hidden = true; return; }
-  const nm = creditName();
-  box.hidden = false; box.style.setProperty("--c", f.c); box.style.setProperty("--c2", f.c2);
-  box.innerHTML = `<div class="bulbs"></div><div class="poster-in">
-    <div class="kicker">${esc(CONFIG.host.toUpperCase())} FILMS PRESENTS</div>
-    <div class="starr">STARRING</div>
-    <div class="star-name">${esc(nm || "You")}</div>
-    <div class="star-in">in <b>${esc(f.name)}</b> · <i>${esc(f.note)}</i></div>
-    ${nm ? "" : `<label class="credit"><span>Your name for the credits</span><input type="text" id="creditIn" maxlength="30" placeholder="Type your name"></label>`}
-    <div class="star-foot">31 OCT · ROOFTOP · ALL SEATS FREE</div></div><div class="bulbs"></div>`;
-  fillBulbs(box);
-  const ci = $("#creditIn"); if (ci) ci.addEventListener("input", () => { store.set("creditName", ci.value.trim()); box.querySelector(".star-name").textContent = ci.value.trim() || "You"; });
-}
-async function pickFit(id){
+function pickFit(id, e){
   myFit = (myFit === id) ? "" : id; store.set("myFit", myFit);
   $$(".fit").forEach(b => b.setAttribute("aria-pressed", b.dataset.fit === myFit));
-  renderFitChip(); renderStarring();
-  const f = FITS.find(x => x.id === myFit), mine = store.get("myRsvp", null);
-  if (!myFit){ $("#fitNote").textContent = "Colour cleared."; return; }
-  if (mine){
-    mine.fit = myFit; store.set("myRsvp", mine);
-    $("#fitNote").textContent = "Updating your RSVP…";
-    try{ if (DEMO) saveDemoRsvp(mine); else await post(mine); $("#fitNote").textContent = "✓ " + f.name + " saved to your RSVP."; loadState(); }
-    catch(e){ $("#fitNote").textContent = "Couldn't save the change. Try again in a bit."; }
-  } else $("#fitNote").textContent = "✓ " + f.name + " it is. It goes in with your RSVP below.";
-  burstConfetti(30);
-}
-function renderFitChip(){
-  const f = FITS.find(x => x.id === myFit);
-  $("#fitChip").innerHTML = f ? `<i style="background:${f.c}"></i>${esc(f.name)} <a href="#fit">change</a>` : `No colour yet. <a href="#fit">Pick one in Fit check</a> (optional)`;
+  if (myFit && e) sparkleAt(e.clientX, e.clientY, 14);
 }
 
 /* ---------- RSVP ---------- */
 const form = $("#rsvpForm");
-function renderMenu(){
-  const d = (STATE.dishes || []).filter(Boolean);
-  $("#menuSoFar").hidden = !d.length;
-  if (d.length) $("#menuSoFar").textContent = "Already on the menu: " + d.join(" · ");
-}
 function renderPlusPeople(n, saved){
   const box = $("#plusPeople"), labels = ["YOUR PARTNER IN CRIME"];
   box.innerHTML = Array.from({length: n}, (_, i) => `<div class="plus-person"><span class="tag">${labels[i]} · they're on the guest list (and the cake count)</span>
@@ -1213,21 +1175,8 @@ function sparkleAt(x, y, n){
     s.style.background = ["#ffe08a","#fff6c9","#ff8fc2","#ffc20e"][i % 4]; document.body.appendChild(s); setTimeout(() => s.remove(), 750); }
 }
 document.addEventListener("pointerdown", e => { if (e.target.closest("input,textarea,#fw,#scratchCanvas")) return; sparkleAt(e.clientX, e.clientY, 7); });
-addTwinkles(".hero", 18); addTwinkles(".fitcheck", 10); addTwinkles(".games", 8); addTwinkles(".playlist", 8); addTwinkles(".scene", 6);
+addTwinkles(".hero", 18); addTwinkles(".games", 8); addTwinkles(".playlist", 8); addTwinkles(".scene", 6);
 $$(".hero-bulbs").forEach(fillBulbs); addEventListener("resize", () => $$(".hero-bulbs").forEach(fillBulbs));
-
-/* ---------- who's in (faces) ---------- */
-function renderWhosIn(){
-  const guests = (STATE.guests || []).filter(Boolean), pics = {}, gal = STATE.gallery || [];
-  gal.forEach(g => { const k = (g.by || "").trim().toLowerCase(); if (k && !pics[k]) pics[k] = photoUrl(g); });
-  const names = guests.length ? guests : Object.keys(pics).map(k => gal.find(g => (g.by || "").trim().toLowerCase() === k).by);
-  if (!names.length){ $("#whosIn").hidden = true; return; }
-  const show = names.slice(0, 6);
-  $("#faces").innerHTML = show.map(n => { const u = pics[n.trim().toLowerCase()]; return u ? `<img src="${esc(u)}" alt="${esc(n)}" title="${esc(n)}">` : `<span title="${esc(n)}">${esc(initials(n))}</span>`; }).join("");
-  const extra = names.length - Math.min(3, names.length);
-  $("#whosTxt").innerHTML = "Already in: <b>" + names.slice(0, 3).map(esc).join(", ") + "</b>" + (extra > 0 ? " + " + extra + " more" : "");
-  $("#whosIn").hidden = false;
-}
 
 renderPlusPeople(0); renderFits(); loadState();
 </script>

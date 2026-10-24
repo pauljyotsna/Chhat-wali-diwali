@@ -58,21 +58,10 @@ function readRsvps_() {
 }
 
 function state_() {
+  // Public data only: colour counts, songs and hype-wall photos. No names, numbers or headcounts.
   const rs = readRsvps_();
-  const st = { slots: {}, fit: {}, fitNames: {}, guests: [], dishes: [], songs: [], gallery: [], counts: { yes: 0, maybe: 0, no: 0, heads: 0 } };
-  rs.forEach(r => {
-    st.counts[r.coming] = (st.counts[r.coming] || 0) + 1;
-    if (r.coming === "yes") {
-      const first = r.name.trim().split(/\s+/)[0];
-      st.counts.heads += 1 + r.plus;
-      st.guests.push(first);
-      if (r.dish) st.dishes.push(r.dish);
-      if (r.fit) (st.fitNames[r.fit] = st.fitNames[r.fit] || []).push(first);
-      if (r.slot) st.slots[r.slot] = (st.slots[r.slot] || 0) + 1;
-      if (r.fit) st.fit[r.fit] = (st.fit[r.fit] || 0) + 1;
-    }
-    if (r.song) st.songs.push({ song: r.song, by: r.name.split(" ")[0] });
-  });
+  const st = { fit: {}, songs: [], gallery: [] };
+  rs.forEach(r => { if (r.coming === "yes" && r.fit) st.fit[r.fit] = (st.fit[r.fit] || 0) + 1; });
   const sv = sheet_("Songs", SONG_HEADERS).getDataRange().getValues();
   sv.shift();
   sv.forEach(row => { if (row[1]) st.songs.push({ song: String(row[1]), by: String(row[2] || ""), artist: String(row[3] || ""), preview: String(row[4] || ""), artwork: String(row[5] || ""), trackId: String(row[6] || "") }); });
